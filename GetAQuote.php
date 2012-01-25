@@ -1,8 +1,10 @@
 <?php
+require_once 'FirePHP/firePHP.php';
 require_once 'class/gfCRUD.class.php';
 require_once 'class/gfLocation.class.php';
 require_once 'class/gfVehicle.class.php';
-require_once 'FirePHP/firePHP.php';
+require_once 'class/gfInstances.class.php';
+require_once 'class/gfQuotationForm.php';
 
 //Set the Debugging mode to True
 Debug::setDebug(true);
@@ -13,7 +15,14 @@ $locResSet = $location->getAllLocations();
 
 $vehicle = new Vehicle($crud);
 $vehResSet = $vehicle->getAllVehicles();
+
+$instance = new gfInstances();
+$vehicle = new Vehicle($crud);
 ?>
+
+<!--For Javascript validation see
+http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-plug-in.html
+-->
 
 <!DOCTYPE html>
 <html>
@@ -49,6 +58,14 @@ $vehResSet = $vehicle->getAllVehicles();
 		color: #f00;
 		font-weight: bold;
 	    }
+	    .error{
+		border: 1px solid red;
+		background: #F9F9DE;
+	    }
+	    label.error{
+		display: none !important;
+		border: none !important;
+	    }	    
 	</style>
     </head>
 
@@ -63,7 +80,7 @@ $vehResSet = $vehicle->getAllVehicles();
 	    try {
 		require_once 'class/gfValidator.php';
 
-		$required = array('user_name', 'user_email', 'user_tel', 'quote_message', 'vehicleType', 'departureLoc', 'destinationLoc', 'departureDate');
+		$required = array('user_name', 'user_email', 'user_tel', 'quote_message', 'vehicleType', 'departureLoc', 'destinationLoc');
 
 		//retrieve the input and check whether any fields are missing	    
 		$val = new Validator($required);
@@ -79,14 +96,12 @@ $vehResSet = $vehicle->getAllVehicles();
 		$val->isInt('departureLoc');
 		$val->isInt('destinationLoc');
 		
+		//need better ways to validate departureDate		
+		//$val->noFilter('departureDate');
+		
 		//need better ways to validate departureDate
-		$val->checkTextLength('departureDate',10);
-		$val->removeTags('departureDate');
-		//need better ways to validate departureDate
 		
-		$val->isInt('vehicleType');
-		
-		
+		$val->isInt('vehicleType');		
 
 		//check the validation test has been set for each required field
 		$filtered = $val->validateInput();
@@ -105,6 +120,19 @@ $vehResSet = $vehicle->getAllVehicles();
 		//if nothing is mission or no errors is thrown
 		if (!$missing && !$errors) {
 		    
+		    $min = 60;
+		    $sec = 60;
+		    
+		    $departureDateUnix = strtotime($_POST['departureDate']) + ($_POST['sltHours'] * $min * $sec) + ($_POST['sltMinutes'] * $sec);		  
+		    if (isset($_POST['returnDate']) && $_POST['returnDate'] != ""){			
+			$returnDateUnix = strtotime($_POST['returnDate']) + ($_POST['sltHoursRet'] * $min * $sec) + ($_POST['sltMinutesRet'] * $sec);			
+		    } 	    
+		    
+		    $user = new User($userName, $userEmail, $userTel);
+		    $vehicle->setVehicleId($vehicleId);
+		    
+		    $quotationForm = new QuotationForm($crud, $instance, $user, $vehicle, $departureLoc, $departureDateUnix, $destinationLoc, $returnDateUnix, $quoteMessage);
+		    
 		    if (Debug::getDebug()) {
 			fb($userName, "Fname", FirePHP::INFO);
 			fb($userEmail, "Email", FirePHP::INFO);
@@ -116,12 +144,21 @@ $vehResSet = $vehicle->getAllVehicles();
 			fb($_POST['departureDate'], "Departure Date", FirePHP::INFO);
 			fb($_POST['sltHours'], "Hours", FirePHP::INFO);
 			fb($_POST['sltMinutes'], "Minutes", FirePHP::INFO);
+			fb($_POST['returnDate'], "Return Date", FirePHP::INFO);
+			fb($_POST['sltHoursRet'], "Hours Ret", FirePHP::INFO);
+			fb($departureDateUnix, "Departure Date in Unix", FirePHP::INFO);
+			fb($returnDateUnix, "Return Date in Unix", FirePHP::INFO);
 		    }
-		    
+		   
 		    $submitted = "Quotation: Congratulation! Your Form has been submitted!";
 		    if (Debug::getDebug()) {
 			Fb::info($submitted);
 		    }
+		    print_r($_COOKIE);
+		    setcookie("StickyForm_user_name");
+		    setcookie("StickyForm_departureDate");
+		    print_r($_COOKIE);
+		    unset($_POST['user_name'], $_POST['user_email'], $_POST['user_tel'], $_POST['quote_message']);
 		    
 		} else {
 		    if (Debug::getDebug()){
@@ -186,16 +223,14 @@ $vehResSet = $vehicle->getAllVehicles();
 	
 	
 	<h1>Quotation</h1>
-	<form action="GetAQuote.php" method="POST">
+	<form action="GetAQuote.php" id="quotationForm" method="POST">
 	    <ul>
 		<li>
-		    <?php 
-			if (isset($errors['user_name'])) { 
-			    echo '<span class="warning">' . $errors['user_name'] . '</span><br />'; 				
-			} 
-		    ?>
+		    <?php if (isset($errors['user_name'])) { ?>
+			    <span class="warning"> <?php echo $errors['user_name'] ?></span><br /> 				
+		    <?php } ?>
 		    <span class="leftWidth">Name:<span class="required">&#42;</span></span>	
-		    <input type="text" maxlength="32" size="20" name="user_name"
+		    <input type="text" maxlength="32" size="20" id="user_name" name="user_name"
 		       <?php
 			    //Sticky Form: The Essential Guide to Dreamweaver CS4 with CSS, Ajax, and PHP
 			    if (isset($missing)) { //if any field a are missing retain the info				
@@ -206,66 +241,57 @@ $vehResSet = $vehicle->getAllVehicles();
 		    />
 		</li>		
 		<li>
-		    <?php 
-			if (isset($errors['user_email'])) { 
-			    echo '<span class="warning">' . $errors['user_email'] . '</span><br />'; 				
-			} 
-		    ?>
+		    <?php if (isset($errors['user_email'])) { ?>
+			    <span class="warning"> <?php echo $errors['user_email'] ?></span><br /> 				
+		    <?php } ?>
 		    <span class="leftWidth">Email:<span class="required">&#42;</span></span>	
-		    <input type="text" maxlength="96" size="20" name="user_email" 
-		       <?php				
-			    if (isset($missing)) {				    
-				echo 'value ="'.htmlentities($_POST['user_email'], ENT_COMPAT, 'UTF-8').'"';
-			    }
-			?>
+		    <input type="text" maxlength="96" size="20" id="user_email" name="user_email" 
+			<?php if (isset($missing)) { ?>
+				value ="<?php echo htmlentities($_POST['user_email'], ENT_COMPAT, 'UTF-8')?>"
+			<?php } ?>
 		    />
+		    
 		</li>
 		<li>	
-		    <?php 
-			if (isset($errors['user_tel'])) { 
-			    echo '<span class="warning">' . $errors['user_tel'] . '</span><br />'; 				
-			} 
-		    ?>
+		    <?php if (isset($errors['user_tel'])) { ?>
+			    <span class="warning"><?php echo $errors['user_tel'] ?></span><br /> 				
+		    <?php } ?>
 		    <span class="leftWidth">Phone:<span class="required">&#42;</span></span>	
-		    <input type="text" maxlength="96" size="20" name="user_tel" 
-			<?php				
-			    if (isset($missing)) {				    
-				echo 'value ="'.htmlentities($_POST['user_tel'], ENT_COMPAT, 'UTF-8').'"';
-			    }
-			?>						 
+		    <input type="text" maxlength="96" size="20" id="user_tel" name="user_tel" 
+			<?php if (isset($missing)) { ?>
+				value ="<?php echo htmlentities($_POST['user_tel'], ENT_COMPAT, 'UTF-8')?>"
+			<?php } ?>						 
 		    />		    
 		</li>
 		
 		<li>
 		    <span class="leftWidth">Travel From:<span class="required">&#42;</span></span>
-		    <select name="departureLoc">
-			<?php
-			    foreach($locResSet as $lrs){
-				echo '<option value="'.$lrs[locationId].'">'.$lrs[locationName].'</option>';				
-			    }
-			?>			
+		    <select name="departureLoc" id="departureLoc">
+			<?php foreach($locResSet as $lrs){ ?>
+				<option value="<?php echo $lrs[locationId] ?>"><?php echo $lrs[locationName] ?></option>				
+			<?php } ?>			
 		    </select>		    
 		</li>
 		
 		<li>
 		    <span class="leftWidth">Travel To:<span class="required">&#42;</span></span>
-		    <select name="destinationLoc">
-			<?php
-			    foreach($locResSet as $lrs){
-				echo '<option value="'.$lrs[locationId].'">'.$lrs[locationName].'</option>';
-			    }
-			?>			
+		    <select name="destinationLoc" id="destinationLoc">
+			<?php foreach($locResSet as $lrs){ ?>
+				<option value="<?php echo $lrs[locationId] ?>"><?php echo $lrs[locationName] ?></option>				
+			<?php } ?>			
 		    </select>		    
 		</li>
 		
 		<li>
-		     <?php 
-			if (isset($errors['departureDate'])) { 
-			    echo '<span class="warning">' . $errors['departureDate'] . '</span><br />'; 				
-			} 
-		    ?>
+		    <?php if (isset($errors['departureDate'])) { ?>
+			    <span class="warning"> <?php echo $errors['departureDate'] ?></span><br /> 				
+		    <?php } ?>
 		    <span class="leftWidth">Travel Date:<span class="required">&#42;</span></span>
-		    <input type="text" maxlength="96" size="10" id="departureDate" name="departureDate" />
+		    <input type="text" maxlength="96" size="10" id="departureDate" name="departureDate" 		
+			<?php if (isset($missing)) { ?>
+				value ="<?php echo htmlentities($_POST['departureDate'], ENT_COMPAT, 'UTF-8')?>"
+			<?php } ?>			   
+		    />
 		    <label for="sltHours">at</label>
 		    <select id="sltHours" name="sltHours" class="hours"></select>
 		    <label for="sltMinutes">:</label>
@@ -274,7 +300,13 @@ $vehResSet = $vehicle->getAllVehicles();
 		
 		<li>
 		    <span class="leftWidth">Return Date:</span>
-		    <input type="text" maxlength="96" size="10" id="returnDate" name="returnDate" />
+		    <input type="text" maxlength="96" size="10" id="returnDate" name="returnDate" 
+
+		    <?php if (isset($missing)) { ?>
+			value ="<?php echo htmlentities($_POST['returnDate'], ENT_COMPAT, 'UTF-8')?>"
+		    <?php } ?>
+			   
+		    />
 		    <label for="sltHoursRet">at</label>
 		    <select id="sltHoursRet" name="sltHoursRet" class="hours"></select>
 		    <label for="sltMinutesRet">:</label>
@@ -283,7 +315,7 @@ $vehResSet = $vehicle->getAllVehicles();
 		
 		<li>
 		    <span class="leftWidth">Vehicle type:<span class="required">&#42;</span></span>
-		    <select name ="vehicleType">
+		    <select name ="vehicleType" id="vehicleType">
 			<?php
 			    foreach($vehResSet as $vrs){
 				echo '<option value="'.$vrs[vehicleId].'">'.$vrs[vehicleName].'</option>';
@@ -293,13 +325,11 @@ $vehResSet = $vehicle->getAllVehicles();
 		</li>
 		
 		<li>
-		    <?php 
-			if (isset($errors['quote_message'])) { 
-			    echo '<span class="warning">' . $errors['quote_message'] . '</span><br />'; 				
-			} 
-		    ?>
+		    <?php if (isset($errors['quote_message'])) { ?>
+			    <span class="warning"><?php echo $errors['quote_message'] ?></span><br /> 				
+		    <?php } ?>
 		    <span class="leftWidth">Additional Request: </span>
-		    <textarea maxlength="500" cols="40" name="quote_message" rows="6"><?php 
+		    <textarea maxlength="500" cols="40" id="quote_message" name="quote_message" rows="6"><?php 
 			if (isset($missing)) {			    
 			    echo htmlentities($_POST['quote_message'], ENT_COMPAT, 'UTF-8');
 			} //It's important to position the opening and closing PHP tags right up agains the <textarea> tags. Else you get unwanted whitespace in the text area.
@@ -316,7 +346,11 @@ $vehResSet = $vehicle->getAllVehicles();
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script><!--For Date Range Picker-->
 	<script src="js/dr/jquery.ui.widget.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/dr/jquery.ui.datepicker.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script><!--Jquery form validation plugin-->
+	
 	<script src="js/DropdownLoader.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript" language="javascript" src="js/jquery.StickyForms.js"></script>
 	
 	<script language="javascript" type="text/javascript">
 	    
@@ -328,7 +362,7 @@ $vehResSet = $vehicle->getAllVehicles();
 		    defaultDate: "+1w",		   
 		    changeMonth: true,
 		    numberOfMonths: 1,
-		    //dateFormat: 'dd/mm/yy',
+		    dateFormat: 'dd-mm-yy',
 		    onSelect: function( selectedDate ) {
 			var option = this.id == "departureDate" ? "minDate" : "maxDate",
 			instance = $( this ).data( "datepicker" ),
@@ -349,7 +383,58 @@ $vehResSet = $vehicle->getAllVehicles();
 	    dropdownLoader.loadMinutes("sltMinutes");	    
 	    dropdownLoader.loadHours("sltHoursRet");
 	    dropdownLoader.loadMinutes("sltMinutesRet");
+
+	    /**************************************************
+	    * JavaScript Form Validation
+	    **************************************************/
+	   $(document).ready(function(){
+		$("#quotationForm").validate({
+		    rules: {
+			user_name: "required",			
+			user_email: "required",
+			user_tel: {
+			    required: true,
+			    minlength: 11
+			},			
+			departureDate: "required",			
+			vehicleType: "required", 
+			quote_message: "required"
+			
+		    },
+		    messages: {
+			user_name: {
+			    required: ""
+			},
+			user_email: {
+			    required: "*",
+			    email: "Please enter a valid email address, example: you@yourdomain.com"
+			},
+			user_tel: {
+			    required: "",
+			    minlength: "11 charecter req"
+			}, 			
+			departureDate: {
+			    required: ""
+			},
+			quote_message: {
+			    required: ""
+			}
+		    }
+		});
+	    });
 	    
+	    $(function() {
+		$('#quotationForm').StickyForm({
+		    'debug': 'false', // [true/false] Enable debugging
+		    'elementTypes': 'all', // [text,password,checkbox,radio,textarea,select-one,all] separate element types with comma separated values (default is all)
+		    'cookieLifetime': '30', // [integer] number of days of cookie lifetime
+		    'disableOnSubmit': 'true', // [true/false] disable submitting the form while the form is processing
+		    'excludeElementIDs': 'sf_password', // [ID1,ID2] exclude element IDs with comma separated values
+		    'scope' : 'global', // [single/global] should the values be sticky only on this form (single) or across all forms on site (default is global)
+		    'disableIfGetSet' : 'elq' // ['',$_GET var] set to the $_GET var.  If this $_GET var is present, it will automatically disable the plugin. (default is '')
+		});
+	    });
+	   
 	    
 	</script>
     </body>

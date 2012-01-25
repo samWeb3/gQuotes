@@ -13,30 +13,21 @@ class QuotationForm {
     private $_crud;
     private $_instance;
     private $_user;
-    private $_vehicle;
-    //private $_instId;
-    //private $this->_user->getName();
-    //private $_userEmail;
-    //private $_user->getTel();
-    private $_quoteMessage;
-    
-    
-    
+    private $_vehicle;   
+    private $_quoteMessage;    
     private $_departureLoc;
-    private $_departureDate;
+    private $_departureDateUnix;
     private $_destinationLoc;
-    private $_returnDate;
+    private $_returnDateUnix;
 
-    public function __construct(Crud $crud, gfInstances $instances, User $user, Vehicle $vehicle, $departureLoc, $departureDate, $destinationLoc, $returnDate, $quoteMessage) {
-	//$this->_userName = $userName;
-	//$this->_userEmail = $userEmail;
-	//$this->_userTel = $userTel;
+    public function __construct(Crud $crud, gfInstances $instances, User $user, Vehicle $vehicle, $departureLoc, $departureDateUnix, $destinationLoc, $returnDateUnix, $quoteMessage) {
+	
 	$this->_quoteMessage = $quoteMessage;
 	
 	$this->_departureLoc = $departureLoc;
-	$this->_departureDate = $departureDate;
+	$this->_departureDateUnix = $departureDateUnix;
 	$this->_destinationLoc = $destinationLoc;
-	$this->_returnDate = $returnDate;
+	$this->_returnDateUnix = $returnDateUnix;
 
 /*>>>>>>>>>>*/	
 	$this->_crud = $crud;
@@ -44,14 +35,13 @@ class QuotationForm {
 	$this->_user = $user;
 	$this->_vehicle = $vehicle;
 	
-	//$this->setInstId();
 	$this->addQuoteRequest();
 	$this->sendEmail();
     }
 
     public function addQuoteRequest() {
 	$dbRow = $this->getRow('gquoteuser', 'userEmail', $this->_user->getEmail());
-	echo "user Id: ".$dbRow[userId]."<br />";
+	
 	//if email exist
 	if ($dbRow[userEmail] == $this->_user->getEmail()) {
 	    $this->updateExistingRecord($dbRow[userId], $dbRow[userTel]);
@@ -82,9 +72,9 @@ class QuotationForm {
 		'instanceId' => $this->getInstId(), 
 		'vehicleId' => $this->_vehicle->getVehicleId(), 
 		'departureLoc'=>$this->_departureLoc,
-		'departureDate'=>$this->_departureDate,
+		'departureDate'=>$this->_departureDateUnix,
 		'destinationLoc'=>$this->_destinationLoc,
-		'returnDate'=>$this->_returnDate,
+		'returnDate'=>$this->_returnDateUnix,
 		'quoteMessage' => $this->_quoteMessage, 
 		'quoteDate' => time()
 	    )
@@ -134,18 +124,13 @@ class QuotationForm {
 		'instanceId' => $this->getInstId(), 
 		'vehicleId' => $this->_vehicle->getVehicleId(), 
 		'departureLoc'=>$this->_departureLoc,
-		'departureDate'=>$this->_departureDate,
+		'departureDate'=>$this->_departureDateUnix,
 		'destinationLoc'=>$this->_destinationLoc,
-		'returnDate'=>$this->_returnDate,
+		'returnDate'=>$this->_returnDateUnix,
 		'quoteMessage' => $this->_quoteMessage, 
 		'quoteDate' => time()
 	    )
 	);
-	
-	
-	/*$quoteRequest = array(
-	    array('user_id' => $dbRow[user_id], 'instanceId' => $this->getInstId(), 'enquiry' => $this->_quoteMessage, 'callBackDate' => time())
-	);*/
 
 	$this->insertRow('gquoterequest', $quoteRequest);
     }

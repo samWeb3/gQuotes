@@ -9,17 +9,24 @@ class Vehicle {
 	$this->_crud = $crud;	
     }
     
-    public function addVehicle($vehicleName){
-	
-    }
-    
-    public function deleteVehicle(){}
-    
     public function getAllVehicles(){
 	return $this->_crud->dbSelect('gquotevehicle');
     }
     
+    /*************************************************************
+     * FUNCTIONS TO BE ADDED 
+     *************************************************************/
+    
+    /**
+     * Get all types of vehicles provided by the partner
+     * 
+     * @param type $instanceId	Instance Id of the partner
+     */
     public function getInstanceVehicles($instanceId){}
+    
+    public function addVehicle($vehicleName){}
+    
+    public function deleteVehicle(){}
     
     /****************************************************
      *  Getter and Setter

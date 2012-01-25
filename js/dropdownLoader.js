@@ -17,7 +17,9 @@ function DropdownLoader(){
 	}
 	
 	var sltHours = document.getElementById(elementId);
-
+	
+	//var selected = <?php if (isset($missing)){echo 'selected="selected"'};?>;
+	
 	for (val in hoursList){
 	    if (hoursList[val] < 10){
 		sltHours.innerHTML += '<option value = "'+hoursList[val]+'">0'+hoursList[val]+'</option>';

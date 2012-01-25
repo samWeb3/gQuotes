@@ -3,23 +3,21 @@ class User {
     private $_userName;
     private $_userEmail;
     private $_userTel;
+    
     public function __construct($userName, $userEmail, $userTel) {
 	$this->_userName = $userName;
 	$this->_userEmail = $userEmail;
 	$this->_userTel = $userTel;
     }
     
-    public function addUser(){
-	
-    }
+   /*************************************************************
+     * FUNCTIONS TO BE ADDED 
+     *************************************************************/
+    public function addUser(){}
     
-    public function deleteUser(){
-	
-    }
+    public function deleteUser(){}
     
-    public function updateUser(){
-	
-    }
+    public function updateUser(){}
     
     /******************************************************
      *  Getters and Setter

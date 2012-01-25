@@ -11,14 +11,24 @@ class Location {
     public function addLocation($locationName){
 	$this->_locationName = $locationName;
     }
-    
-    public function deleteLocation(){}
-    
     public function getAllLocations(){
 	return $this->_crud->dbSelect('gquotelocation');
     }
     
+    /*************************************************************
+     * FUNCTIONS TO BE ADDED 
+     *************************************************************/
+    
+    /**
+     * Get all the Location served by the partner
+     * 
+     * @param type $instanceId	Instance Id of the partner
+     */
     public function getInstanceLocations($instanceId){}
+    
+    public function deleteLocation(){}
+    
+    
 }
 
 ?>
