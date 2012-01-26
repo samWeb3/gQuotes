@@ -20,10 +20,6 @@ $instance = new gfInstances();
 $vehicle = new Vehicle($crud);
 ?>
 
-<!--For Javascript validation see
-http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-plug-in.html
--->
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -70,7 +66,7 @@ http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-p
     </head>
 
     <body>
-	<?php
+	<?php	
 	$missing = null;
 	$errors = null;
 	$success = null;
@@ -94,13 +90,7 @@ http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-p
 		$val->useEntities('quote_message');
 		
 		$val->isInt('departureLoc');
-		$val->isInt('destinationLoc');
-		
-		//need better ways to validate departureDate		
-		//$val->noFilter('departureDate');
-		
-		//need better ways to validate departureDate
-		
+		$val->isInt('destinationLoc');		
 		$val->isInt('vehicleType');		
 
 		//check the validation test has been set for each required field
@@ -153,12 +143,15 @@ http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-p
 		    $submitted = "Quotation: Congratulation! Your Form has been submitted!";
 		    if (Debug::getDebug()) {
 			Fb::info($submitted);
-		    }
-		    print_r($_COOKIE);
-		    setcookie("StickyForm_user_name");
-		    setcookie("StickyForm_departureDate");
-		    print_r($_COOKIE);
-		    unset($_POST['user_name'], $_POST['user_email'], $_POST['user_tel'], $_POST['quote_message']);
+		    }		    
+		    
+		    //Unset cookie
+		    $cookieArr = array("StickyForm_departureLoc", "StickyForm_destinationLoc", "StickyForm_vehicleType");		    
+		    $quotationForm->unsetCookie($cookieArr);
+		    
+		    //UnsetPostValue
+		    $fieldnameArr = array('user_name',  'user_email', 'user_tel', 'quote_message', 'vehicleType', 'departureLoc', 'destinationLoc');
+		    $quotationForm->resetForm($fieldnameArr);
 		    
 		} else {
 		    if (Debug::getDebug()){
@@ -168,56 +161,6 @@ http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-p
 	    } catch (Exception $e) {
 		echo $e;
 	    }
-	    /*try {
-		require_once 'class/gfValidator.php';
-
-		$required = array('user_name', 'user_email', 'user_tel', 'quote_message');
-
-		//retrieve the input and check whether any fields are missing	    
-		$val = new Validator($required);
-
-		//Validate each field and generate errror
-		$val->checkTextLength('user_name', 3, 30);
-		$val->removeTags('user_name');
-		$val->isEmail('user_email');
-		$val->matches('user_tel', '/[0-9]{3,11}/');
-		$val->checkTextLength('quote_message', 5, 500);
-		$val->useEntities('quote_message');
-
-		//check the validation test has been set for each required field
-		$filtered = $val->validateInput();
-
-		$fname = $filtered['user_name'];
-		$email = $filtered['user_email'];
-		$tel = $filtered['user_tel'];
-		$enquiry = $filtered['quote_message'];
-
-		$missing = $val->getMissing();
-		$errors = $val->getErrors();
-
-		//if nothing is mission or no errors is thrown
-		if (!$missing && !$errors) {
-		    try {
-			/*$cbf = new CallBackForm($fname, $email, $tel, $enquiry);
-
-			$submitted = "CallBack: Congratulation! Your Form has been submitted!";
-			if (Debug::getDebug()) {
-			    Fb::info($submitted);
-			}
-			unset($_POST['user_name'], $_POST['user_email'], $_POST['user_tel'], $_POST['quote_message']);*/
-			
-			/*echo "form submitted!";
-		    } catch (Exception $e) {
-			echo $e->getMessage();
-		    }
-		} else {
-		    if (Debug::getDebug()) {
-			fb($filtered, "All Values not set", FirePHP::INFO);
-		    }
-		}
-	    } catch (Exception $e) {
-		echo $e;
-	    }*/
 	}
 	?>
 	
@@ -231,9 +174,8 @@ http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-p
 		    <?php } ?>
 		    <span class="leftWidth">Name:<span class="required">&#42;</span></span>	
 		    <input type="text" maxlength="32" size="20" id="user_name" name="user_name"
-		       <?php
-			    //Sticky Form: The Essential Guide to Dreamweaver CS4 with CSS, Ajax, and PHP
-			    if (isset($missing)) { //if any field a are missing retain the info				
+		       <?php			    
+			    if (isset($missing)) { 
 				//ENT_COMPAT: converts double quote to $quote; but lives single quote alone
 				echo 'value ="'.htmlentities($_POST['user_name'], ENT_COMPAT, 'UTF-8').'"';
 			    }				
@@ -346,12 +288,9 @@ http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-p
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script><!--For Date Range Picker-->
 	<script src="js/dr/jquery.ui.widget.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/dr/jquery.ui.datepicker.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script><!--Jquery form validation plugin-->
-	
-	<script src="js/DropdownLoader.js" type="text/javascript" charset="utf-8"></script>
-	
-	<script type="text/javascript" language="javascript" src="js/jquery.StickyForms.js"></script>
-	
+	<script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script><!--Jquery form validation plugin-->	
+	<script src="js/DropdownLoader.js" type="text/javascript" charset="utf-8"></script>	
+	<script type="text/javascript" language="javascript" src="js/jquery.StickyForms.js"></script>	
 	<script language="javascript" type="text/javascript">
 	    
 	    /**************************************************
@@ -362,7 +301,7 @@ http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-p
 		    defaultDate: "+1w",		   
 		    changeMonth: true,
 		    numberOfMonths: 1,
-		    dateFormat: 'dd-mm-yy',
+		   // dateFormat: 'mm-dd-yy',
 		    onSelect: function( selectedDate ) {
 			var option = this.id == "departureDate" ? "minDate" : "maxDate",
 			instance = $( this ).data( "datepicker" ),
@@ -378,11 +317,13 @@ http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-p
 	   /**************************************************
 	    * <select> DropDown Loader
 	    **************************************************/
-	    var dropdownLoader = new DropdownLoader();	    
-	    dropdownLoader.loadHours("sltHours");
-	    dropdownLoader.loadMinutes("sltMinutes");	    
-	    dropdownLoader.loadHours("sltHoursRet");
-	    dropdownLoader.loadMinutes("sltMinutesRet");
+	   $(document).ready(function(){		
+		var dropdownLoader = new DropdownLoader();	    
+		dropdownLoader.loadHours("sltHours");
+		dropdownLoader.loadMinutes("sltMinutes");	    
+		dropdownLoader.loadHours("sltHoursRet");
+		dropdownLoader.loadMinutes("sltMinutesRet");
+	   });
 
 	    /**************************************************
 	    * JavaScript Form Validation
@@ -406,12 +347,10 @@ http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-p
 			    required: ""
 			},
 			user_email: {
-			    required: "*",
-			    email: "Please enter a valid email address, example: you@yourdomain.com"
+			    required: "*"
 			},
 			user_tel: {
-			    required: "",
-			    minlength: "11 charecter req"
+			    required: ""
 			}, 			
 			departureDate: {
 			    required: ""
@@ -429,12 +368,11 @@ http://randomactsofcoding.blogspot.com/2008/09/starting-with-jquery-validation-p
 		    'elementTypes': 'all', // [text,password,checkbox,radio,textarea,select-one,all] separate element types with comma separated values (default is all)
 		    'cookieLifetime': '30', // [integer] number of days of cookie lifetime
 		    'disableOnSubmit': 'true', // [true/false] disable submitting the form while the form is processing
-		    'excludeElementIDs': 'sf_password', // [ID1,ID2] exclude element IDs with comma separated values
-		    'scope' : 'global', // [single/global] should the values be sticky only on this form (single) or across all forms on site (default is global)
+		    'excludeElementIDs': 'user_name, user_email, user_tel, quote_message', // [ID1,ID2] exclude element IDs with comma separated values
+		    'scope' : 'single', // [single/global] should the values be sticky only on this form (single) or across all forms on site (default is global)
 		    'disableIfGetSet' : 'elq' // ['',$_GET var] set to the $_GET var.  If this $_GET var is present, it will automatically disable the plugin. (default is '')
 		});
-	    });
-	   
+	    });	   
 	    
 	</script>
     </body>

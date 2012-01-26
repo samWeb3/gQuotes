@@ -49,6 +49,46 @@ class QuotationForm {
 	    $this->updateNewRecord();
 	}
     }
+    
+    /**
+     * Unset the cookies after the form submission
+     * Possible cookie name to be reset [print_r($_COOKIE)]:
+     * "StickyForm_user_name"
+     * "StickyForm_user_email"
+     * "StickyForm_user_tel"
+     * "StickyForm_departureLoc"
+     * "StickyForm_destinationLoc"
+     * "StickyForm_departureDate"
+     * "StickyForm_sltHours"
+     * "StickyForm_sltMinutes"
+     * "StickyForm_returnDate"
+     * "StickyForm_sltHoursRet"
+     * "StickyForm_sltMinutesRet"
+     * "StickyForm_vehicleType"
+     * "StickyForm_quote_message"
+     * 
+     * @param type $cookiesArr	Cookie name(s) to be reset
+     */
+    public function unsetCookie($cookiesArr){	
+	foreach ($cookiesArr as $key => $value)	{ 
+	    //This unset cookie works only within the open browser. If browser is re-opened cookies is BACK AGAIN 
+	    //Therefore, in sticky form [user_name, user_email, user_tel] is excluded from cookies as a security precaution. 	   
+	    setcookie($value); 	
+	}
+    }
+    
+    /**
+     * Reset the form field after the submission
+     * This method have to be called after unsetCookie(), Else it won't reset for those values which are cached by sticky form
+     * 
+     * @param <array> $fieldnameArr    Fieldname(s) to be reset
+     */
+    public function resetForm($fieldnameArr){
+	print_r($fieldnameArr);
+	foreach ($fieldnameArr as $key => $value){
+	    unset($_POST[$value]);
+	}
+    }
 
     /**
      *
@@ -133,8 +173,8 @@ class QuotationForm {
 	);
 
 	$this->insertRow('gquoterequest', $quoteRequest);
-    }
-
+    }  
+   
     /**
      * Insert ta row on a given table
      * 
