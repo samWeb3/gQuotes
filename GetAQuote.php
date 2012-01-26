@@ -25,24 +25,27 @@ $vehicle = new Vehicle($crud);
     <head>
 	<title></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link href="css/dr/jquery.ui.all.css" rel="stylesheet" />
+	<link href="css/dr/jquery.ui.all.css" rel="stylesheet" />	
+	<link href="css/dr/demos.css" rel="stylesheet" />
+	
 	<style type="text/css">
-	    html, body, div, ol, ul, dl, dd, dt, fieldset, p, form, h1, h2, h3, h4, h5, iframe, blockquote, pre, img, label, legend, strong, span, em, table, caption, tbody, tfoot, thead, tr, th, td {
+	   html, body, div, ol, ul, dl, dd, dt, fieldset, p, form, h1, h2, h3, h4, h5, iframe, blockquote, pre, img, label, legend, strong, span, em, table, caption, tbody, tfoot, thead, tr, th, td {
 		font-family: inherit;
 		font-style: inherit;
 		font-weight: inherit;
 		margin: 0;
 		padding: 0;
-	    }
+	    }	    
 	    fieldset, input, select, textarea, button, table, th, td, pre {
 		font: 75%/1.6em "Lucida Grande",Verdana,Geneva,Helvetica,Arial,sans-serif;
 	    }
-	    ol, ul {
-		list-style: none outside none;
-	    }
+	    
 	    body {
 		font-family: Arial;
 		font-size: 12px;
+	    }
+	    ol, ul {
+		list-style: none outside none;
 	    }
 	    ul li span.leftWidth{
 		float: left;
@@ -288,92 +291,11 @@ $vehicle = new Vehicle($crud);
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script><!--For Date Range Picker-->
 	<script src="js/dr/jquery.ui.widget.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/dr/jquery.ui.datepicker.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script><!--Jquery form validation plugin-->	
+	<!--Jquery form validation plugin-->
+	<script src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js" type="text/javascript" charset="utf-8"></script>	
 	<script src="js/DropdownLoader.js" type="text/javascript" charset="utf-8"></script>	
-	<script type="text/javascript" language="javascript" src="js/jquery.StickyForms.js"></script>	
-	<script language="javascript" type="text/javascript">
+	<script src="js/jquery.StickyForms.js" type="text/javascript" charset="utf-8"></script>	
+	<script src="js/getAQuote.js" type="text/javascript" charset="utf-8"></script>
 	    
-	    /**************************************************
-	     * Date Range Picker 
-	     **************************************************/	    
-	    $(function() {
-		var dates = $( "#departureDate, #returnDate" ).datepicker({
-		    defaultDate: "+1w",		   
-		    changeMonth: true,
-		    numberOfMonths: 1,
-		   // dateFormat: 'mm-dd-yy',
-		    onSelect: function( selectedDate ) {
-			var option = this.id == "departureDate" ? "minDate" : "maxDate",
-			instance = $( this ).data( "datepicker" ),
-			date = $.datepicker.parseDate(
-			instance.settings.dateFormat ||
-			    $.datepicker._defaults.dateFormat,
-			selectedDate, instance.settings );
-			dates.not( this ).datepicker( "option", option, date );
-		    }
-		});
-	    }); 
-	    
-	   /**************************************************
-	    * <select> DropDown Loader
-	    **************************************************/
-	   $(document).ready(function(){		
-		var dropdownLoader = new DropdownLoader();	    
-		dropdownLoader.loadHours("sltHours");
-		dropdownLoader.loadMinutes("sltMinutes");	    
-		dropdownLoader.loadHours("sltHoursRet");
-		dropdownLoader.loadMinutes("sltMinutesRet");
-	   });
-
-	    /**************************************************
-	    * JavaScript Form Validation
-	    **************************************************/
-	   $(document).ready(function(){
-		$("#quotationForm").validate({
-		    rules: {
-			user_name: "required",			
-			user_email: "required",
-			user_tel: {
-			    required: true,
-			    minlength: 11
-			},			
-			departureDate: "required",			
-			vehicleType: "required", 
-			quote_message: "required"
-			
-		    },
-		    messages: {
-			user_name: {
-			    required: ""
-			},
-			user_email: {
-			    required: "*"
-			},
-			user_tel: {
-			    required: ""
-			}, 			
-			departureDate: {
-			    required: ""
-			},
-			quote_message: {
-			    required: ""
-			}
-		    }
-		});
-	    });
-	    
-	    $(function() {
-		$('#quotationForm').StickyForm({
-		    'debug': 'false', // [true/false] Enable debugging
-		    'elementTypes': 'all', // [text,password,checkbox,radio,textarea,select-one,all] separate element types with comma separated values (default is all)
-		    'cookieLifetime': '30', // [integer] number of days of cookie lifetime
-		    'disableOnSubmit': 'true', // [true/false] disable submitting the form while the form is processing
-		    'excludeElementIDs': 'user_name, user_email, user_tel, quote_message', // [ID1,ID2] exclude element IDs with comma separated values
-		    'scope' : 'single', // [single/global] should the values be sticky only on this form (single) or across all forms on site (default is global)
-		    'disableIfGetSet' : 'elq' // ['',$_GET var] set to the $_GET var.  If this $_GET var is present, it will automatically disable the plugin. (default is '')
-		});
-	    });	   
-	    
-	</script>
     </body>
 </html>

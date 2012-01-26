@@ -83,8 +83,7 @@ class QuotationForm {
      * 
      * @param <array> $fieldnameArr    Fieldname(s) to be reset
      */
-    public function resetForm($fieldnameArr){
-	print_r($fieldnameArr);
+    public function resetForm($fieldnameArr){	
 	foreach ($fieldnameArr as $key => $value){
 	    unset($_POST[$value]);
 	}
