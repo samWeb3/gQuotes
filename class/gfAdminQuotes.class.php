@@ -9,7 +9,7 @@ class AdminQuotes {
     private $_crud;
     private $_datePicker;
     private $_instanceId;
-    private $_cbStatus;    
+    private $_quoteStatus;    
     private $_pager;   
 
     /**
@@ -30,22 +30,22 @@ class AdminQuotes {
     }
 
     /**
-     * Populates table with Callback records and paginates
+     * Populates table with Quotes records and paginates
      * 
-     * @param int    $rowNum	 Number of rows per page
-     * @param int    $numLink	 Number of links     
-     * @param string $cbStatus   Status of callback [Answered, Unanswered]
+     * @param int    $rowNum	    Number of rows per page
+     * @param int    $numLink	    Number of links     
+     * @param string $quoteStatus   Status of Quotes [Answered, Unanswered]
      */
-    public function viewPaginateCallBacks($rowNum, $numLink, $cbStatus="") {
+    public function viewPaginateCallBacks($rowNum, $numLink, $quoteStatus="") {
 	
-	$this->_cbStatus = $cbStatus;
+	$this->_quoteStatus = $quoteStatus;
 
-	if ($cbStatus == "" || $cbStatus == '2') {//Total CallBack	    
-	    $sql = $this->callBackQuery($cbStatus);
-	} else if ($cbStatus == '0' || $cbStatus == '1') {//Answered or Unanswered CB	    
-	    $sql = $this->callBackQuery($cbStatus);
+	if ($quoteStatus == "" || $quoteStatus == '2') {//Total CallBack	    
+	    $sql = $this->callBackQuery($quoteStatus);
+	} else if ($quoteStatus == '0' || $quoteStatus == '1') {//Answered or Unanswered CB	    
+	    $sql = $this->callBackQuery($quoteStatus);
 	}	
-	$this->_pager = new PS_Pagination($this->_crud, $sql, $rowNum, $numLink, "&cbStatus=$cbStatus&param1=valu1&param2=value2&fromDate=".$this->_datePicker->getFromDate()."&toDate=".$this->_datePicker->getToDate()."&dateRangeSet=".$this->_datePicker->getDateRangeSet().'"');
+	$this->_pager = new PS_Pagination($this->_crud, $sql, $rowNum, $numLink, "&cbStatus=$quoteStatus&param1=valu1&param2=value2&fromDate=".$this->_datePicker->getFromDate()."&toDate=".$this->_datePicker->getToDate()."&dateRangeSet=".$this->_datePicker->getDateRangeSet().'"');
 	
 	//returns resultset or false
 	$reqResultSet = $this->_pager->paginate();
@@ -62,12 +62,12 @@ class AdminQuotes {
     }
 
     /**
-     * Construct the Query for retrieving Callback result
+     * Construct the Query for retrieving Quotes result
      * 
-     * @param type $cbStatus	Total CallBacks [" " || 2]; Answered [1], Unanswered [0]
+     * @param type $quoteStatus	Total Quotes [" " || 2]; Answered [1], Unanswered [0]
      * @return string		SQL query
      */
-    private function callBackQuery($cbStatus="") {
+    private function callBackQuery($quoteStatus="") {
 	$sql = "SELECT gquoteuser.userId, userName, userEmail, userTel, 
 		    quoteId, instanceId, vehicleId, departureLoc, destinationLoc, 
 		    departureDate, returnDate, quoteMessage, quoteDate, quoteStatus
@@ -77,8 +77,8 @@ class AdminQuotes {
 	if ($this->_datePicker->getUnixFromDate() != "" && $this->_datePicker->getUnixToDate() != "") {	    
 	     $sql .= " AND quoteDate > ".$this->_datePicker->getUnixFromDate()." AND quoteDate < ". $this->_datePicker->getUnixToDate();
 	}
-	if ($cbStatus == '0' || $cbStatus == '1') {
-	    $sql .= " AND quoteStatus = '$cbStatus'";
+	if ($quoteStatus == '0' || $quoteStatus == '1') {
+	    $sql .= " AND quoteStatus = '$quoteStatus'";
 	}
 	$sql .= " ORDER BY gquoterequest.quoteDate DESC";
 	if (Debug::getDebug()) {
@@ -128,7 +128,7 @@ class AdminQuotes {
      * @return int Number all Call Back
      */
     public function countTotCB() {
-	Fb::info("Total Call Back");
+	Fb::info("Total Quotes");
 
 	$rs = $this->_crud->dbSelectFromTo('gquoterequest', $this->_instanceId, null, null, 'quoteDate', $this->_datePicker->getUnixFromDate(), $this->_datePicker->getUnixToDate());
 	return count($rs);
@@ -139,7 +139,7 @@ class AdminQuotes {
      * Getters
      ********************************************************/
     public function getCbStatus(){
-	return $this->_cbStatus;
+	return $this->_quoteStatus;
     }
     
     public function getPageNo(){

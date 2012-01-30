@@ -23,8 +23,8 @@ Debug::setDebug(true);
 	<script>
 	    //need this until php sets the value, Therefore need here
 	    var dayRange = new Array();
-	    var callBackRec = new Array();//To hold all request for Callback
-	    var ansCBRec = new Array();//To hold answered callback records
+	    var totalRec = new Array();//To hold all request for Callback
+	    var ansRec = new Array();//To hold answered callback records
 	</script>
     </head>
     <body>
@@ -67,11 +67,11 @@ Debug::setDebug(true);
 		$cbStats->monthStats();
 	    }
 
-	    $adminCallBack = new AdminQuotes($instanceId, $datePicker);
+	    $adminQuotes = new AdminQuotes($instanceId, $datePicker);
 
 	    //Check if Callback link has been clicked
 	    if ((isset($_GET['quoteId']))) {
-		$adminCallBack->updateCallBackStatus($_GET['quoteId']);
+		$adminQuotes->updateCallBackStatus($_GET['quoteId']);
 		if ($fromDate != "" && $toDate != "") {
 		    $infoMessage = "Displaying Callback Records From <strong>$ukFromDate</strong> to <strong>$ukToDate</strong>";
 		    $cbStats->customStats($_GET['fromDate'], $_GET['toDate']);
@@ -97,21 +97,21 @@ Debug::setDebug(true);
 		$inputNum = 10;
 	    }
 
-	    $TotalCB = $adminCallBack->countTotCB();
-	    $AnsCB = $adminCallBack->countAnsCB();
-	    $UnAnsCB = $adminCallBack->countUnAnsCB();
+	    $TotalCB = $adminQuotes->countTotCB();
+	    $AnsCB = $adminQuotes->countAnsCB();
+	    $UnAnsCB = $adminQuotes->countUnAnsCB();
 
-	    if ((isset($_GET['cbStatus']))) {
-		$cbStatus = $_GET['cbStatus'];
-		if ($cbStatus == 0) {//Display UnAnswered CallBacks	   
-		    $resultSet = $adminCallBack->viewPaginateCallBacks($inputNum, $numLink, '0');
-		} else if ($cbStatus == 1) {//Display Answered CallBacks	   
-		    $resultSet = $adminCallBack->viewPaginateCallBacks($inputNum, $numLink, '1');
-		} else if ($cbStatus == 2) { // Total CallBacks
-		    $resultSet = $adminCallBack->viewPaginateCallBacks($inputNum, $numLink, '2');
+	    if ((isset($_GET['quoteStatus']))) {
+		$quoteStatus = $_GET['quoteStatus'];
+		if ($quoteStatus == 0) {//Display UnAnswered CallBacks	   
+		    $resultSet = $adminQuotes->viewPaginateCallBacks($inputNum, $numLink, '0');
+		} else if ($quoteStatus == 1) {//Display Answered CallBacks	   
+		    $resultSet = $adminQuotes->viewPaginateCallBacks($inputNum, $numLink, '1');
+		} else if ($quoteStatus == 2) { // Total CallBacks
+		    $resultSet = $adminQuotes->viewPaginateCallBacks($inputNum, $numLink, '2');
 		}
 	    } else { //Display Total Callbacks
-		$resultSet = $adminCallBack->viewPaginateCallBacks($inputNum, $numLink, '2');
+		$resultSet = $adminQuotes->viewPaginateCallBacks($inputNum, $numLink, '2');
 	    }
 	} catch (Exception $ex) {
 	    $errorMessage = $ex->getMessage();
@@ -155,7 +155,7 @@ Debug::setDebug(true);
 			<h3>Total Callbacks</h3>    	
 			<p class="dashboard">
 			    <span class="data">
-				<a href="<?php echo $_SERVER['PHP_SELF'] . "?cbStatus=2&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"'; ?>" class="dashboardLink" id="totCB">
+				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=2&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"'; ?>" class="dashboardLink" id="totCB">
 				    <?php echo $TotalCB ?>
 				</a>
 			    </span>
@@ -166,7 +166,7 @@ Debug::setDebug(true);
 			<h3>Answered Callbacks</h3>    	
 			<p class="dashboard">
 			    <span class="data">
-				<a href="<?php echo $_SERVER['PHP_SELF'] . "?cbStatus=1&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"'; ?>" class="dashboardLink" id="ansCB">
+				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=1&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"'; ?>" class="dashboardLink" id="ansCB">
 				<?php echo $AnsCB ?>
 				</a>
 			    </span>
@@ -177,7 +177,7 @@ Debug::setDebug(true);
 			<h3>Unanswered Callbacks</h3>    	
 			<p class="dashboard">
 			    <span class="data">
-				<a href="<?php echo $_SERVER['PHP_SELF'] . "?cbStatus=0&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"' ?>" class="dashboardLink" id="unAnsCB">
+				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=0&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"' ?>" class="dashboardLink" id="unAnsCB">
 				    <?php echo $UnAnsCB ?>
 				</a>
 			    </span>
@@ -200,7 +200,7 @@ Debug::setDebug(true);
 		    </div>
 		    <span id="dateFilter" class="pull-right">
 			    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="get" class="pull-right">
-				<input type="hidden" name="cbStatus" id="cbStatus" value="<?php echo $adminCallBack->getCbStatus();?>">				
+				<input type="hidden" name="quoteStatus" id="quoteStatus" value="<?php echo $adminQuotes->getCbStatus();?>">				
 				<input type="hidden" name="fromDate" value="<?php echo $datePicker->getFromDate();?>">
 				<input type="hidden" name="toDate" value="<?php echo $datePicker->getToDate();?>">
 				<input type="hidden" name="dateRangeSet" value="<?php echo $datePicker->getDateRangeSet();?>">	
@@ -217,7 +217,7 @@ Debug::setDebug(true);
 			<th>Name: </th>
 			<th>Email: </th>
 			<th>Phone No: </th>
-			<th>Enquiry</th>
+			<th>Additional Request: </th>
 			<th>Status</th>
 		    </tr>
 		    </thead>
@@ -228,8 +228,8 @@ Debug::setDebug(true);
 				$date = date('M.d.Y', $r[callBackDate])."<br /><span class='small unHighlight'>".date('G:i:s A', $r[callBackDate])."</span>";
 				$status = "";
 				if ($r[quoteStatus] == 0) {
-				    $status = "<a href='".$_SERVER['PHP_SELF']."?quoteId=".$r[quoteId]."&page=".$adminCallBack->getPageNo()."&row_pp=".$adminCallBack->getRecordsPerPage().
-					      "&cbStatus=".$adminCallBack->getCbStatus()."&param1=valu1&param2=value2&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate().
+				    $status = "<a href='".$_SERVER['PHP_SELF']."?quoteId=".$r[quoteId]."&page=".$adminQuotes->getPageNo()."&row_pp=".$adminQuotes->getRecordsPerPage().
+					      "&quoteStatus=".$adminQuotes->getCbStatus()."&param1=valu1&param2=value2&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate().
 					      "&dateRangeSet=".$datePicker->getDateRangeSet()."' class='btn danger'>Callback</a>";
 				} else {
 				    $status = "<a href='#' class='btn success disabled'>Answered</button>";
@@ -250,7 +250,7 @@ Debug::setDebug(true);
 		</table>
 		
 		<div class="cPaginator">
-		    <?php echo $adminCallBack->getPaginatorNav(); ?>
+		    <?php echo $adminQuotes->getPaginatorNav(); ?>
 		</div>
 	    </div>
 	    

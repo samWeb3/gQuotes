@@ -47,9 +47,9 @@ $(".alert-message").alert();
  * Highlight Dashboard Link Based on current Status 
  **************************************************/
 //Get the php variable set above	   	   
-var cbStatus = $('#cbStatus').val();
+var quoteStatus = $('#quoteStatus').val();
 
-switch (cbStatus){
+switch (quoteStatus){
     case '0':		   	
 	$('#unAnsCB').addClass('activeLink');
 	break;
