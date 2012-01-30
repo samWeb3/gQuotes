@@ -115,7 +115,8 @@ $vehicle = new Vehicle($crud);
 		    
 		    $min = 60;
 		    $sec = 60;
-		    
+		
+		//>> Need to refactor... 
 		    $departureDateUnix = strtotime($_POST['departureDate']) + ($_POST['sltHours'] * $min * $sec) + ($_POST['sltMinutes'] * $sec);		  
 		    if (isset($_POST['returnDate']) && $_POST['returnDate'] != ""){			
 			$returnDateUnix = strtotime($_POST['returnDate']) + ($_POST['sltHoursRet'] * $min * $sec) + ($_POST['sltMinutesRet'] * $sec);			
@@ -154,6 +155,7 @@ $vehicle = new Vehicle($crud);
 		    
 		    //UnsetPostValue
 		    $fieldnameArr = array('user_name',  'user_email', 'user_tel', 'quote_message', 'vehicleType', 'departureLoc', 'destinationLoc');
+		    //$fieldnameArr = array('user_name',  'user_email', 'user_tel', 'quote_message');
 		    $quotationForm->resetForm($fieldnameArr);
 		    
 		} else {
@@ -295,7 +297,6 @@ $vehicle = new Vehicle($crud);
 	<script src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js" type="text/javascript" charset="utf-8"></script>	
 	<script src="js/DropdownLoader.js" type="text/javascript" charset="utf-8"></script>	
 	<script src="js/jquery.StickyForms.js" type="text/javascript" charset="utf-8"></script>	
-	<script src="js/getAQuote.js" type="text/javascript" charset="utf-8"></script>
-	    
+	<script src="js/getAQuote.js" type="text/javascript" charset="utf-8"></script>    
     </body>
 </html>

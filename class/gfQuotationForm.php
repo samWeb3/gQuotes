@@ -115,7 +115,8 @@ class QuotationForm {
 		'destinationLoc'=>$this->_destinationLoc,
 		'returnDate'=>$this->_returnDateUnix,
 		'quoteMessage' => $this->_quoteMessage, 
-		'quoteDate' => time()
+		'quoteDate' => time(), 
+		'quoteStatus' => 0
 	    )
 	);
 
@@ -167,7 +168,8 @@ class QuotationForm {
 		'destinationLoc'=>$this->_destinationLoc,
 		'returnDate'=>$this->_returnDateUnix,
 		'quoteMessage' => $this->_quoteMessage, 
-		'quoteDate' => time()
+		'quoteDate' => time(), 
+		'quoteStatus' => 0
 	    )
 	);
 

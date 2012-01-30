@@ -77,7 +77,7 @@ class CallBackStats {
     /**
      * Computes Prev one month date from the current day
      */
-    public function monthStats(){	
+    public function monthStats(){		
 	$this->resetRecords();
 	//$this->_dpStatistics->setNoOfDays(31);
 	$this->getRecords($this->getUnixToDate(), $this->getUnixFromDate(), $this->getNoOfDays());
@@ -137,10 +137,10 @@ class CallBackStats {
      * @return type		    Array [resultSet]
      */
     private function statResultSet($fromDate, $fromDateEnd, $cbStatus=""){
-	$sql =  "select count(*) from callbackuserenquiry where callBackDate > 
-				:fromDate and callBackDate < :fromDateEnd AND callbackuserenquiry.instanceId = :insId";
+	$sql =  "select count(*) from gquoterequest where quoteDate > 
+				:fromDate and quoteDate < :fromDateEnd AND gquoterequest.instanceId = :insId";
 	if ($cbStatus == '1'){
-	    $sql .= " AND cb_status = $cbStatus";
+	    $sql .= " AND quoteStatus = $cbStatus";
 	} 			
 		
 	$stmt = $this->_crud->getDbConn()->prepare($sql);
