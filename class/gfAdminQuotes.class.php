@@ -17,7 +17,7 @@ class AdminQuotes {
      * @param type $instanceId		Instance Id of Partner
      * @param DatePicker $datePicker	datePicker
      */
-    public function __construct($instanceId, DatePicker $datePicker) {
+    public function __construct(Crud $crud, DatePicker $datePicker, $instanceId) {
 	if (empty($instanceId)) {
 	    throw new Exception("Partner ID Not provided");
 	}
@@ -26,7 +26,7 @@ class AdminQuotes {
 	}
 	$this->_datePicker = $datePicker;	
 	$this->_instanceId = $instanceId;
-	$this->_crud = new CRUD();
+	$this->_crud = $crud;
     }
 
     /**

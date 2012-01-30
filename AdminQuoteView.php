@@ -4,9 +4,13 @@ require_once 'class/gfAdminQuotes.class.php';
 require_once 'class/gfCallBackStats.class.php';
 require_once 'FirePHP/firePHP.php';
 require_once 'class/gfDatePicker.class.php';
+require_once 'class/gfLocation.class.php';
 
 //Set the Debugging mode to True
 Debug::setDebug(true);
+
+$crud = new CRUD();
+$location = new Location($crud);
 ?>  
 <!DOCTYPE html>
 <html>
@@ -67,7 +71,7 @@ Debug::setDebug(true);
 		$cbStats->monthStats();
 	    }
 
-	    $adminQuotes = new AdminQuotes($instanceId, $datePicker);
+	    $adminQuotes = new AdminQuotes($crud, $datePicker, $instanceId);
 
 	    //Check if Quotes link has been clicked
 	    if ((isset($_GET['quoteId']))) {
@@ -215,15 +219,16 @@ Debug::setDebug(true);
 		    <tr>			
 			<th>Date</th>
 			<th>Personal Info</th>
-			<th>Email</th>
-			<th>Phone No</th>
+			<th>Locations</th>
+			<th>Departure - Return</th>
 			<th>Additional Request</th>
 			<th>Status</th>
 		    </tr>
 		    </thead>
 		    <tbody>
-			<?php					
-			if ($resultSet) {			    
+			<?php				
+			if ($resultSet) {
+			    //print_r($resultSet);
 			    foreach ($resultSet as $r) {		
 				$date = date('M.d.Y', $r[quoteDate])."<br /><span class='small unHighlight'>".date('G:i:s A', $r[quoteDate])."</span>";
 				$status = "";
@@ -238,9 +243,19 @@ Debug::setDebug(true);
 				
 				<tr>
 				    <td><?php echo $date; ?></td>
-				    <td><?php echo $r[userName]; ?></td>
-				    <td><?php echo $r[userEmail]; ?></td>
-				    <td><?php echo $r[userTel]; ?></td>
+				    <td>
+					<span class="qUserName"><?php echo $r[userName]; ?></span>
+					<span class="qUserEmail"><?php echo $r[userEmail]; ?></span>
+					<span class="qUserTel"><?php echo $r[userTel]; ?></span>
+				    </td>				    
+				    <td>
+					<span class="qDeprLoc">From: <?php echo $location->getLocationName($r[departureLoc]); ?></span>
+					<span class="qDestLoc">To: <?php echo $location->getLocationName($r[destinationLoc]) ?></span>
+				    </td>
+				    <td>
+					<span class="qDeprDate">Depart: <?php echo $datePicker->convertUnixToDate($r[departureDate]); ?> at <?php echo $datePicker->convertUnixToTime($r[departureDate]); ?></span>
+					<span class="qRtnDate">To: <?php echo $datePicker->convertUnixToDate($r[returnDate]); ?> at <?php echo $datePicker->convertUnixToTime($r[returnDate]); ?></span>
+				    </td>
 				    <td><?php echo $r[quoteMessage]; ?></td>
 				    <td><?php echo $status; ?></td>
 				</tr>

@@ -95,6 +95,18 @@ class DatePicker {
 	$message = "Displaying Records From <strong><span class='highlightDate'>".$from."</span></strong> to <strong><span class='highlightDate'>".$to."</span></strong>";
 	return $message;
     }
+    
+    public function convertUnixToDateTime($unixTimeStamp){	
+	return date('M.d.Y', $unixTimeStamp)."<br /><span class='small unHighlight'>".date('G:i:s A', $unixTimeStamp)."</span>";
+    }
+    
+    public function convertUnixToDate($unixTimeStamp){	
+	return date('M.d.Y', $unixTimeStamp);
+    }
+    
+    public function convertUnixToTime($unixTimeStamp){	
+	return date('G:i:s A', $unixTimeStamp);
+    }
 
 }
 

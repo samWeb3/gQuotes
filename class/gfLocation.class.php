@@ -15,6 +15,11 @@ class Location {
 	return $this->_crud->dbSelect('gquotelocation');
     }
     
+    public function getLocationName($locationId){	
+	$locName = $this->_crud->dbSelect('gquotelocation', 'locationId', $locationId);	
+	return $locName[0][locationName];
+    }
+    
     /*************************************************************
      * FUNCTIONS TO BE ADDED 
      *************************************************************/
