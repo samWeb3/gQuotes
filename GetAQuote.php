@@ -150,12 +150,12 @@ $vehicle = new Vehicle($crud);
 		    }		    
 		    
 		    //Unset cookie
-		    $cookieArr = array("StickyForm_departureLoc", "StickyForm_destinationLoc", "StickyForm_vehicleType");		    
-		    $quotationForm->unsetCookie($cookieArr);
+		    //$cookieArr = array("StickyForm_departureLoc", "StickyForm_destinationLoc", "StickyForm_vehicleType");		    
+		    // $quotationForm->unsetCookie($cookieArr);
 		    
 		    //UnsetPostValue
-		    $fieldnameArr = array('user_name',  'user_email', 'user_tel', 'quote_message', 'vehicleType', 'departureLoc', 'destinationLoc');
-		    //$fieldnameArr = array('user_name',  'user_email', 'user_tel', 'quote_message');
+		    //$fieldnameArr = array('user_name',  'user_email', 'user_tel', 'quote_message', 'vehicleType', 'departureLoc', 'destinationLoc');
+		    $fieldnameArr = array('user_name',  'user_email', 'user_tel', 'quote_message');
 		    $quotationForm->resetForm($fieldnameArr);
 		    
 		} else {
