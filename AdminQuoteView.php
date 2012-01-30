@@ -55,15 +55,15 @@ Debug::setDebug(true);
 
 		$dateRangeSet = $_GET['dateRangeSet'];
 
-		if ($fromDate != "" && $toDate != "") {
-		    $infoMessage = "Displaying Quotes Records From <strong>$ukFromDate</strong> to <strong>$ukToDate</strong>";
+		if ($fromDate != "" && $toDate != "") {		    
+		    $infoMessage = $datePicker->displayDateRangeMsg($ukFromDate, $ukToDate);
 		    $cbStats->customStats($_GET['fromDate'], $_GET['toDate']);
-		} else {		    
-		    $infoMessage = "Displaying Quotes Records From <strong>".$datePicker->getUkFromDate()."</strong> to <strong>".$datePicker->getUkToDate()."</strong>";
+		} else {		    		    
+		    $infoMessage = $datePicker->displayDateRangeMsg($datePicker->getUkFromDate(), $datePicker->getUkToDate());
 		    $cbStats->monthStats();
 		}
-	    } else {		
-		$infoMessage = "Displaying Quotes Records From <strong>".$datePicker->getUkFromDate()."</strong> to <strong>".$datePicker->getUkToDate()."</strong>";
+	    } else {				
+		$infoMessage = $datePicker->displayDateRangeMsg($datePicker->getUkFromDate(), $datePicker->getUkToDate());
 		$cbStats->monthStats();
 	    }
 
@@ -71,12 +71,12 @@ Debug::setDebug(true);
 
 	    //Check if Quotes link has been clicked
 	    if ((isset($_GET['quoteId']))) {
-		$adminQuotes->updateCallBackStatus($_GET['quoteId']);
-		if ($fromDate != "" && $toDate != "") {
-		    $infoMessage = "Displaying Quotes Records From <strong>$ukFromDate</strong> to <strong>$ukToDate</strong>";
+		$adminQuotes->updateQuoteStatus($_GET['quoteId']);
+		if ($fromDate != "" && $toDate != "") {		    
+		    $infoMessage = $datePicker->displayDateRangeMsg($ukFromDate, $ukToDate);
 		    $cbStats->customStats($_GET['fromDate'], $_GET['toDate']);
-		} else {		    
-		    $infoMessage = "Displaying Quotes Records From <strong>".$datePicker->getUkFromDate()."</strong> to <strong>".$datePicker->getUkToDate()."</strong>";
+		} else {		    		    
+		    $infoMessage = $datePicker->displayDateRangeMsg($datePicker->getUkFromDate(), $datePicker->getUkToDate());
 		    $cbStats->monthStats();
 		}
 	    }
@@ -97,9 +97,9 @@ Debug::setDebug(true);
 		$inputNum = 10;
 	    }
 
-	    $TotalCB = $adminQuotes->countTotCB();
-	    $AnsCB = $adminQuotes->countAnsCB();
-	    $UnAnsCB = $adminQuotes->countUnAnsCB();
+	    $TotalCB = $adminQuotes->countTotQuote();
+	    $AnsCB = $adminQuotes->countAnsQuote();
+	    $UnAnsCB = $adminQuotes->countUnAnsQuote();
 
 	    if ((isset($_GET['quoteStatus']))) {
 		$quoteStatus = $_GET['quoteStatus'];
@@ -152,7 +152,7 @@ Debug::setDebug(true);
 	    <div id="viewDashboardPnl">
 		<ul id="items">
 		    <li>
-			<h3>Total Quote Requests</h3>    	
+			<h3>Total Requests</h3>    	
 			<p class="dashboard">
 			    <span class="data">
 				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=2&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"'; ?>" class="dashboardLink" id="totCB">
@@ -163,7 +163,7 @@ Debug::setDebug(true);
 		    </li>
 
 		    <li>
-			<h3>Answered Quote Requests</h3>    	
+			<h3>Answered Requests</h3>    	
 			<p class="dashboard">
 			    <span class="data">
 				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=1&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"'; ?>" class="dashboardLink" id="ansCB">
@@ -174,7 +174,7 @@ Debug::setDebug(true);
 		    </li>
 
 		    <li>
-			<h3>Unanswered Quote Requests</h3>    	
+			<h3>Unanswered Requests</h3>    	
 			<p class="dashboard">
 			    <span class="data">
 				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=0&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"' ?>" class="dashboardLink" id="unAnsCB">
@@ -200,7 +200,7 @@ Debug::setDebug(true);
 		    </div>
 		    <span id="dateFilter" class="pull-right">
 			    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="get" class="pull-right">
-				<input type="hidden" name="quoteStatus" id="quoteStatus" value="<?php echo $adminQuotes->getCbStatus();?>">				
+				<input type="hidden" name="quoteStatus" id="quoteStatus" value="<?php echo $adminQuotes->getQuoteStatus();?>">				
 				<input type="hidden" name="fromDate" value="<?php echo $datePicker->getFromDate();?>">
 				<input type="hidden" name="toDate" value="<?php echo $datePicker->getToDate();?>">
 				<input type="hidden" name="dateRangeSet" value="<?php echo $datePicker->getDateRangeSet();?>">	
@@ -229,7 +229,7 @@ Debug::setDebug(true);
 				$status = "";
 				if ($r[quoteStatus] == 0) {
 				    $status = "<a href='".$_SERVER['PHP_SELF']."?quoteId=".$r[quoteId]."&page=".$adminQuotes->getPageNo()."&row_pp=".$adminQuotes->getRecordsPerPage().
-					      "&quoteStatus=".$adminQuotes->getCbStatus()."&param1=valu1&param2=value2&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate().
+					      "&quoteStatus=".$adminQuotes->getQuoteStatus()."&param1=valu1&param2=value2&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate().
 					      "&dateRangeSet=".$datePicker->getDateRangeSet()."' class='btn danger'>Pending...</a>";
 				} else {
 				    $status = "<a href='#' class='btn success disabled'>Answered</button>";

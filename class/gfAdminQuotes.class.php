@@ -54,8 +54,8 @@ class AdminQuotes {
 	    return false;
 	} else {
 	    //Updates the Answered and Unanswered callbacks
-	    $this->countAnsCB();
-	    $this->countUnAnsCB();
+	    $this->countAnsQuote();
+	    $this->countUnAnsQuote();
 	    
 	    return $reqResultSet;	    
 	}
@@ -96,7 +96,7 @@ class AdminQuotes {
      * 
      * @param string $quoteId Quote Id of the gquoterequest table
      */
-    public function updateCallBackStatus($quoteId) {
+    public function updateQuoteStatus($quoteId) {
 	$this->_crud->dbUpdate('gquoterequest', 'quoteStatus', 1, 'quoteId', $quoteId);
     }
 
@@ -105,7 +105,7 @@ class AdminQuotes {
      * 
      * @return int Number of answered Call Back 
      */
-    public function countAnsCB() {
+    public function countAnsQuote() {
 	Fb::info("Answered:");
 	$rs = $this->_crud->dbSelectFromTo('gquoterequest', $this->_instanceId, 'quoteStatus', '1', 'quoteDate', $this->_datePicker->getUnixFromDate(), $this->_datePicker->getUnixToDate());
 	return count($rs);
@@ -116,7 +116,7 @@ class AdminQuotes {
      * 
      * @return int Number of Unanswered Call Back
      */
-    public function countUnAnsCB() {
+    public function countUnAnsQuote() {
 	Fb::info("Un Answered:");
 	$rs = $this->_crud->dbSelectFromTo('gquoterequest', $this->_instanceId, 'quoteStatus', '0', 'quoteDate', $this->_datePicker->getUnixFromDate(), $this->_datePicker->getUnixToDate());
 	return count($rs);
@@ -127,18 +127,18 @@ class AdminQuotes {
      * 
      * @return int Number all Call Back
      */
-    public function countTotCB() {
+    public function countTotQuote() {
 	Fb::info("Total Quotes");
 
 	$rs = $this->_crud->dbSelectFromTo('gquoterequest', $this->_instanceId, null, null, 'quoteDate', $this->_datePicker->getUnixFromDate(), $this->_datePicker->getUnixToDate());
 	return count($rs);
     }
-
     
+        
     /********************************************************
      * Getters
      ********************************************************/
-    public function getCbStatus(){
+    public function getQuoteStatus(){
 	return $this->_quoteStatus;
     }
     
