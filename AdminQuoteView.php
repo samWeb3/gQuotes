@@ -214,7 +214,7 @@ Debug::setDebug(true);
 		    <thead>
 		    <tr>			
 			<th>Date</th>
-			<th>Name</th>
+			<th>Personal Info</th>
 			<th>Email</th>
 			<th>Phone No</th>
 			<th>Additional Request</th>
@@ -234,18 +234,24 @@ Debug::setDebug(true);
 				} else {
 				    $status = "<a href='#' class='btn success disabled'>Answered</button>";
 				}
-			    echo "<tr><td>".$date."</td>
-				    <td>".$r[userName]."</td>
-				    <td>".$r[userEmail]."</td>
-				    <td>".$r[userTel]."</td>
-				    <td>".$r[quoteMessage]."</td>
-				    <td>".$status."</td>
-				  </tr>";
-			    }			    
-			} else {
-			    echo "<div class='alert-message error fade in' data-alert='alert'><a class='close' href='#'>&times;</a>Records not available!</div>";
-			}
-			?>
+			?>	
+				
+				<tr>
+				    <td><?php echo $date; ?></td>
+				    <td><?php echo $r[userName]; ?></td>
+				    <td><?php echo $r[userEmail]; ?></td>
+				    <td><?php echo $r[userTel]; ?></td>
+				    <td><?php echo $r[quoteMessage]; ?></td>
+				    <td><?php echo $status; ?></td>
+				</tr>
+			
+			<?php } } else { ?>
+				<tr>
+				    <td colspan="6">
+					<div class='alert-message error fade in' data-alert='alert'><a class='close' href='#'>&times;</a>Records not available!</div>
+				    </td>
+				</tr>			    
+			<?php } ?>
 		    </tbody>
 		</table>
 		
