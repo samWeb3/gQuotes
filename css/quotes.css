@@ -98,6 +98,9 @@ ol#pagination li.prev {
 .unHighlight{
     color: #BFBFBF;
 }
+.borderLeftZero{
+    border-left: 0px !important;
+}
 .group:after {
     clear: both;
     content: ".";
@@ -111,22 +114,50 @@ ol#pagination li.prev {
 .qUserName, .qUserEmail, .qUserTel, .qDeprLoc, .qDestLoc, .qDeprDate, .qRtnDate{
     display: block;
 }
-    .qUserEmail, .qUserTel{
-	padding-left: 3px;	
-	font-size: 12px;
-	color: #666666;
+    .qUserEmail, .qUserTel{	
+	font-size: 11px;
+	color: #888888;
     }
     .qUserName{
+	color: #666666;
 	font-weight: bold;
 	text-transform: uppercase;  
-	margin-bottom: 2px;
-    }
-    .qUserEmail{
-	font-style: italic;        
-    }
+	
+    }    
     .qUserTel{
 	font-weight: bold;
     }
     .qDeprLoc, .qDestLoc, .qDeprDate, .qRtnDate{
 	white-space: nowrap;
     }
+
+.journeyDetail{
+   margin-bottom: 0px;        
+   border: 0px;   
+}
+
+.journeyDetail caption{ 
+    padding-top: 3px;
+    color: #666666;
+    text-align: left;
+    white-space: nowrap;
+    margin-bottom: 3px;
+    font-weight: bold;
+    font-size: 12px;
+}
+.journeyDetail th{
+    color: #777777;
+    border-bottom: 1px solid #DDDDDD !important;
+    border-top: 1px solid #DDDDDD !important;
+}
+.journeyDetail td{
+    color: #888888;    
+}
+.journeyDetail td, .journeyDetail th{
+    padding: 0px 0px 3px 0px;
+   
+    border: 0px;
+}
+.to{
+    padding-left: 5px !important;
+}

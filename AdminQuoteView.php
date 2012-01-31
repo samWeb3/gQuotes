@@ -219,8 +219,8 @@ $location = new Location($crud);
 		    <tr>			
 			<th>Date</th>
 			<th>Personal Info</th>
-			<th>Locations</th>
-			<th>Departure - Return</th>
+			<th>Outward</th>
+			<th>Return</th>
 			<th>Additional Request</th>
 			<th>Status</th>
 		    </tr>
@@ -240,22 +240,48 @@ $location = new Location($crud);
 				    $status = "<a href='#' class='btn success disabled'>Answered</button>";
 				}
 			?>	
-				
 				<tr>
 				    <td><?php echo $date; ?></td>
 				    <td>
 					<span class="qUserName"><?php echo $r[userName]; ?></span>
 					<span class="qUserEmail"><?php echo $r[userEmail]; ?></span>
 					<span class="qUserTel"><?php echo $r[userTel]; ?></span>
-				    </td>				    
+				    </td>
 				    <td>
+					
+					<table class="journeyDetail" border="1">
+					    <caption>30 Jan 2011 at 14:30</caption>
+					    <tr>						
+						<th class="from">From</th>
+						<th class="to">To</th>
+					    </tr>
+					    <tr>						
+						<td class="from"><?php echo $location->getLocationName($r[departureLoc]); ?></td>
+						<td class="to"><?php echo $location->getLocationName($r[destinationLoc]) ?></td>
+					    </tr>
+					</table>					
+				    </td>
+				    <td>
+					<table class="journeyDetail" border="1">
+					    <caption>30 Jan 2011</caption>
+					    <tr>						
+						<th class="from">From</th>
+						<th class="to">To</th>
+					    </tr>
+					    <tr>						
+						<td class="from"><?php echo $location->getLocationName($r[destinationLoc]) ?></td>
+						<td class="to"><?php echo $location->getLocationName($r[departureLoc]); ?></td>
+					    </tr>
+					</table>					
+				    </td>
+				    <!--td>
 					<span class="qDeprLoc">From: <?php echo $location->getLocationName($r[departureLoc]); ?></span>
 					<span class="qDestLoc">To: <?php echo $location->getLocationName($r[destinationLoc]) ?></span>
 				    </td>
 				    <td>
 					<span class="qDeprDate">Depart: <?php echo $datePicker->convertUnixToDate($r[departureDate]); ?> at <?php echo $datePicker->convertUnixToTime($r[departureDate]); ?></span>
 					<span class="qRtnDate">To: <?php echo $datePicker->convertUnixToDate($r[returnDate]); ?> at <?php echo $datePicker->convertUnixToTime($r[returnDate]); ?></span>
-				    </td>
+				    </td-->
 				    <td><?php echo $r[quoteMessage]; ?></td>
 				    <td><?php echo $status; ?></td>
 				</tr>
