@@ -101,11 +101,11 @@ class DatePicker {
     }
     
     public function convertUnixToDate($unixTimeStamp){	
-	return date('M.d.Y', $unixTimeStamp);
+	return date('d M Y', $unixTimeStamp);
     }
     
     public function convertUnixToTime($unixTimeStamp){	
-	return date('G:i:s A', $unixTimeStamp);
+	return date('H:i', $unixTimeStamp);
     }
 
 }

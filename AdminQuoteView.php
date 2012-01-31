@@ -5,12 +5,14 @@ require_once 'class/gfCallBackStats.class.php';
 require_once 'FirePHP/firePHP.php';
 require_once 'class/gfDatePicker.class.php';
 require_once 'class/gfLocation.class.php';
+require_once 'class/gfVehicle.class.php';
 
 //Set the Debugging mode to True
 Debug::setDebug(true);
 
 $crud = new CRUD();
 $location = new Location($crud);
+$vehicle = new Vehicle($crud);
 ?>  
 <!DOCTYPE html>
 <html>
@@ -214,7 +216,7 @@ $location = new Location($crud);
 			</span>
 		</div>	    
 		
-		<table class="zebra-striped tablesorter" id="CallBackTable">
+		<table class="zebra-striped tablesorter" id="JourneyQuoteTable">
 		    <thead>
 		    <tr>			
 			<th>Date</th>
@@ -241,38 +243,53 @@ $location = new Location($crud);
 				}
 			?>	
 				<tr>
-				    <td><?php echo $date; ?></td>
+				    <td><span class="qDate"><?php echo $date; ?></span></td>
 				    <td>
 					<span class="qUserName"><?php echo $r[userName]; ?></span>
 					<span class="qUserEmail"><?php echo $r[userEmail]; ?></span>
 					<span class="qUserTel"><?php echo $r[userTel]; ?></span>
 				    </td>
 				    <td>
+					<div class="journeyDetails alert-message block-message info">
+					    <div class="journeyDate"><?php echo $datePicker->convertUnixToDate($r[departureDate]); ?><span class="unHighlight">&nbsp;at&nbsp;</span><?php echo $datePicker->convertUnixToTime($r[departureDate]); ?></div>
+						<div class="journeyLocations">
+						<ul>
+						    <li>
+							<span class="floatLeft">From:</span>
+							<span class="fromLoc"><?php echo $location->getLocationName($r[departureLoc]); ?></span>
+							<span></span>
+						    </li>
+						    <li>
+							<span class="floatLeft">To:</span>
+							<span class="toLoc"><?php echo $location->getLocationName($r[destinationLoc]) ?></span>
+						    </li>
+						</ul>
+					    </div>
+					    <div class="block-message-footer">
+						<?php echo $vehicle->getVehicleName($r[vehicleId]); ?>
+					    </div>
+					</div>	
 					
-					<table class="journeyDetail" border="1">
-					    <caption>30 Jan 2011 at 14:30</caption>
-					    <tr>						
-						<th class="from">From</th>
-						<th class="to">To</th>
-					    </tr>
-					    <tr>						
-						<td class="from"><?php echo $location->getLocationName($r[departureLoc]); ?></td>
-						<td class="to"><?php echo $location->getLocationName($r[destinationLoc]) ?></td>
-					    </tr>
-					</table>					
 				    </td>
 				    <td>
-					<table class="journeyDetail" border="1">
-					    <caption>30 Jan 2011</caption>
-					    <tr>						
-						<th class="from">From</th>
-						<th class="to">To</th>
-					    </tr>
-					    <tr>						
-						<td class="from"><?php echo $location->getLocationName($r[destinationLoc]) ?></td>
-						<td class="to"><?php echo $location->getLocationName($r[departureLoc]); ?></td>
-					    </tr>
-					</table>					
+					<div class="journeyDetails alert-message block-message info">
+					    <div class="journeyDate"><?php echo $datePicker->convertUnixToDate($r[returnDate]); ?><span class="unHighlight">&nbsp;at&nbsp;</span><?php echo $datePicker->convertUnixToTime($r[returnDate]); ?></div>
+						<div class="journeyLocations">
+						<ul>
+						    <li>
+							<span class="floatLeft">From:</span>
+							<span class="fromLoc"><?php echo $location->getLocationName($r[destinationLoc]) ?></span>
+						    </li>
+						    <li>
+							<span class="floatLeft">To:</span>
+							<span class="toLoc"><?php echo $location->getLocationName($r[departureLoc]); ?></span>
+						    </li>
+						</ul>
+					    </div>
+					    <div class="block-message-footer">
+						<?php echo $vehicle->getVehicleName($r[vehicleId]); ?>
+					    </div>
+					</div>						
 				    </td>
 				    <!--td>
 					<span class="qDeprLoc">From: <?php echo $location->getLocationName($r[departureLoc]); ?></span>
@@ -289,7 +306,10 @@ $location = new Location($crud);
 			<?php } } else { ?>
 				<tr>
 				    <td colspan="6">
-					<div class='alert-message error fade in' data-alert='alert'><a class='close' href='#'>&times;</a>Records not available!</div>
+					<div class='alert-message block-message error' data-alert='alert'>
+					    <div class="block-message-header">Oops! Records not available!</div>
+					    <div class="block-message-body">Please enter valid date range and try again...</div>					    
+					</div>
 				    </td>
 				</tr>			    
 			<?php } ?>

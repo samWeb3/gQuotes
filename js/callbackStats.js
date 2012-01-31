@@ -59,7 +59,7 @@ if (dayRange != 0 && totalRec != 0 && ansRec != 0){ //to avoid js error at begin
     var datasets = [ 
     { 
 	color: "#CB413B", 
-	label: "CallBacks", 		    
+	label: "Quote", 		    
 	data: callbackData, 
 	shadowSize: 4
 				

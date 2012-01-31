@@ -54,9 +54,12 @@ ol#pagination li.prev {
 #dateRange {
     border: 0px solid red;
 }
+#JourneyQuoteTable td {
+    color: #808080;
+}
 
-#CallBackTable td, #CallBackTable th {
-    max-width: 210px;
+#JourneyQuoteTable td, #JourneyQuoteTable th {
+    max-width: 140px;
     overflow: hidden;  
     /*border: 1px dotted blue;*/
 }
@@ -97,6 +100,7 @@ ol#pagination li.prev {
 }
 .unHighlight{
     color: #BFBFBF;
+    font-weight: normal !important;
 }
 .borderLeftZero{
     border-left: 0px !important;
@@ -114,15 +118,17 @@ ol#pagination li.prev {
 .qUserName, .qUserEmail, .qUserTel, .qDeprLoc, .qDestLoc, .qDeprDate, .qRtnDate{
     display: block;
 }
+.qDate, .qUserName{
+    font-size: 12px;
+}
     .qUserEmail, .qUserTel{	
 	font-size: 11px;
-	color: #888888;
+	color: #808080;
     }
-    .qUserName{
+    .qUserName{	
 	color: #666666;
 	font-weight: bold;
-	text-transform: uppercase;  
-	
+	text-transform: uppercase;  	
     }    
     .qUserTel{
 	font-weight: bold;
@@ -131,33 +137,48 @@ ol#pagination li.prev {
 	white-space: nowrap;
     }
 
-.journeyDetail{
-   margin-bottom: 0px;        
-   border: 0px;   
+.journeyDate{
+    font-size: 12px;
+    color: #666666;
+    white-space: nowrap;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #DDDDDD;
+}
+.journeyLocations .floatLeft{
+    float: left;  
+    width: 45px;
+    font-weight: bold;
+}
+.journeyLocations ul {
+    margin-left: 0px;
+    margin-bottom: 0px;
+}
+.journeyLocations li{
+    list-style: none;
+    white-space: nowrap;
+    color: #808080 !important;
+}
+#JourneyQuoteTable .alert-message div{
+    margin-top: 0px;
 }
 
-.journeyDetail caption{ 
-    padding-top: 3px;
+
+.block-message-header{
     color: #666666;
-    text-align: left;
-    white-space: nowrap;
-    margin-bottom: 3px;
+    border-bottom: 1px solid #DDDDDD;
     font-weight: bold;
-    font-size: 12px;
 }
-.journeyDetail th{
+.block-message-body{
+    color: #666666;
+}
+.block-message-footer{
+    border-top: 1px solid #DDDDDD;
     color: #777777;
-    border-bottom: 1px solid #DDDDDD !important;
-    border-top: 1px solid #DDDDDD !important;
-}
-.journeyDetail td{
-    color: #888888;    
-}
-.journeyDetail td, .journeyDetail th{
-    padding: 0px 0px 3px 0px;
-   
-    border: 0px;
-}
-.to{
-    padding-left: 5px !important;
+    display: block;
+    font-size: 11px;
+    line-height: 12px !important;
+    margin-bottom: -8px !important;
+    margin-top: 18px !important;
+    padding-top: 5px;
 }

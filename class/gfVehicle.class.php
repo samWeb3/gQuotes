@@ -34,14 +34,16 @@ class Vehicle {
     public function getVehicleId(){
 	return $this->_vehicleId;
     }
-    public function getVehicleName(){
-	return $this->_vehicleName;
-    }
+   
     public function setVehicleId($vehicleId){
 	$this->_vehicleId = $vehicleId;
     }
     public function setVehicleName($vehicleName){
 	$this->_vehicleName = $vehicleName;
+    }
+    public function getVehicleName($vehicleId){	
+	$vehName = $this->_crud->dbSelect('gquotevehicle', 'vehicleId', $vehicleId);	
+	return $vehName[0][vehicleName];
     }
 }
 ?>
