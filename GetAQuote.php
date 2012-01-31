@@ -11,10 +11,10 @@ Debug::setDebug(true);
 
 $crud = new CRUD();
 $location = new Location($crud);
-$locResSet = $location->getAllLocations();
+$locResSet = $location->selectAllLocations();
 
 $vehicle = new Vehicle($crud);
-$vehResSet = $vehicle->getAllVehicles();
+$vehResSet = $vehicle->selectAllVehicles();
 
 $instance = new gfInstances();
 $vehicle = new Vehicle($crud);
@@ -74,7 +74,8 @@ $vehicle = new Vehicle($crud);
 	$errors = null;
 	$success = null;
 
-	if (filter_has_var(INPUT_POST, getAQuote)) { //better than isset as it returns true even in case of an empty string 	  
+	//better than isset as it returns true even in case of an empty string
+	if (filter_has_var(INPUT_POST, getAQuote)) {  	  
 	    
 	    try {
 		require_once 'class/gfValidator.php';
@@ -114,9 +115,8 @@ $vehicle = new Vehicle($crud);
 		if (!$missing && !$errors) {
 		    
 		    $min = 60;
-		    $sec = 60;
-		
-		//>> Need to refactor... 
+		    $sec = 60;		
+		    
 		    $departureDateUnix = strtotime($_POST['departureDate']) + ($_POST['sltHours'] * $min * $sec) + ($_POST['sltMinutes'] * $sec);		  
 		    if (isset($_POST['returnDate']) && $_POST['returnDate'] != ""){			
 			$returnDateUnix = strtotime($_POST['returnDate']) + ($_POST['sltHoursRet'] * $min * $sec) + ($_POST['sltMinutesRet'] * $sec);			

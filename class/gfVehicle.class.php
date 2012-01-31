@@ -9,8 +9,24 @@ class Vehicle {
 	$this->_crud = $crud;	
     }
     
-    public function getAllVehicles(){
+    /**
+     * Returns all the vehicle informations from database
+     * 
+     * @return type  Database Resource
+     */
+    public function selectAllVehicles(){
 	return $this->_crud->dbSelect('gquotevehicle');
+    }
+    
+    /**
+     * Returns Vehicle Name of the given vehicle Id
+     * 
+     * @param type $vehicleId	Id of an Vehicle    
+     * @return type		Database Resource
+     */
+    public function selectVehicleName($vehicleId){	
+	$vehName = $this->_crud->dbSelect('gquotevehicle', 'vehicleId', $vehicleId);	
+	return $vehName[0][vehicleName];
     }
     
     /*************************************************************
@@ -41,9 +57,7 @@ class Vehicle {
     public function setVehicleName($vehicleName){
 	$this->_vehicleName = $vehicleName;
     }
-    public function getVehicleName($vehicleId){	
-	$vehName = $this->_crud->dbSelect('gquotevehicle', 'vehicleId', $vehicleId);	
-	return $vehName[0][vehicleName];
-    }
+    
+    
 }
 ?>

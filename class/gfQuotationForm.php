@@ -20,6 +20,18 @@ class QuotationForm {
     private $_destinationLoc;
     private $_returnDateUnix;
 
+    /**
+     *
+     * @param Crud $crud
+     * @param gfInstances $instances
+     * @param User $user
+     * @param Vehicle $vehicle
+     * @param type $departureLoc
+     * @param type $departureDateUnix
+     * @param type $destinationLoc
+     * @param type $returnDateUnix
+     * @param type $quoteMessage 
+     */
     public function __construct(Crud $crud, gfInstances $instances, User $user, Vehicle $vehicle, $departureLoc, $departureDateUnix, $destinationLoc, $returnDateUnix, $quoteMessage) {
 	
 	$this->_quoteMessage = $quoteMessage;
@@ -29,7 +41,6 @@ class QuotationForm {
 	$this->_destinationLoc = $destinationLoc;
 	$this->_returnDateUnix = $returnDateUnix;
 
-/*>>>>>>>>>>*/	
 	$this->_crud = $crud;
 	$this->_instance = $instances;
 	$this->_user = $user;
@@ -39,6 +50,9 @@ class QuotationForm {
 	$this->sendEmail();
     }
 
+    /**
+     * Add new or Update existing records based on a valued submitted from the Quotation Form
+     */
     public function addQuoteRequest() {
 	$dbRow = $this->getRow('gquoteuser', 'userEmail', $this->_user->getEmail());
 	
@@ -46,7 +60,7 @@ class QuotationForm {
 	if ($dbRow[userEmail] == $this->_user->getEmail()) {
 	    $this->updateExistingRecord($dbRow[userId], $dbRow[userTel]);
 	} else {
-	    $this->updateNewRecord();
+	    $this->addNewRecord();
 	}
     }
     
@@ -140,9 +154,10 @@ class QuotationForm {
     }
 
     /**
+     * Add new Record into a database
      * 
      */
-    private function updateNewRecord() {
+    private function addNewRecord() {
 	if (Debug::getDebug()) {
 	    Fb::info("QuotationForm: Email doesn't exist:");
 	}
@@ -210,21 +225,15 @@ class QuotationForm {
     private function updateRow($table, $fieldname, $value, $pk, $id) {
 	$this->_crud->dbUpdate($table, $fieldname, $value, $pk, $id);
     }
-    
-    /**
-     * 
-     */
-    private function setInstId() {//don't need
-	//$gfInt = new gfInstances();
-	//$this->_instId = $gfInt->getInstanceId();
-    }
+  
     
     private function getInstId(){
 	return $this->_instance->getInstanceId();
     }
     
     /**
-     *
+     * Return email address of an instance
+     * 
      * @return type 
      */
     private function getOwnerEmail() {
@@ -236,7 +245,7 @@ class QuotationForm {
     }
 
     /**
-     * 
+     * Sends an email to the instance owner
      */
     private function sendEmail() {
 	$ow_email = $this->getOwnerEmail();

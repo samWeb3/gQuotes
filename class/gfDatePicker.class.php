@@ -107,7 +107,5 @@ class DatePicker {
     public function convertUnixToTime($unixTimeStamp){	
 	return date('H:i', $unixTimeStamp);
     }
-
 }
-
 ?>
