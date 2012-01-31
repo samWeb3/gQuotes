@@ -1,6 +1,6 @@
 /**************************************************
-	     * Date Range Picker 
-	     **************************************************/	    
+ * Date Range Picker 
+ **************************************************/	    
 $(function() {
     var dates = $( "#departureDate, #returnDate" ).datepicker({
 	defaultDate: "+1w",		   
@@ -20,8 +20,8 @@ $(function() {
 }); 
 	    
 /**************************************************
-	    * <select> DropDown Loader
-	    **************************************************/
+* <select> DropDown Loader
+**************************************************/
 $(document).ready(function(){		
     var dropdownLoader = new DropdownLoader();	    
     dropdownLoader.loadHours("sltHours");

@@ -54,11 +54,11 @@ ol#pagination li.prev {
 #dateRange {
     border: 0px solid red;
 }
-#JourneyQuoteTable td {
+#CallBackTable  td {
     color: #808080;
 }
 
-#JourneyQuoteTable td, #JourneyQuoteTable th {
+#CallBackTable  td, #CallBackTable  th {
     max-width: 140px;
     overflow: hidden;  
     /*border: 1px dotted blue;*/
@@ -159,7 +159,7 @@ ol#pagination li.prev {
     white-space: nowrap;
     color: #808080 !important;
 }
-#JourneyQuoteTable .alert-message div{
+#CallBackTable  .alert-message div{
     margin-top: 0px;
 }
 

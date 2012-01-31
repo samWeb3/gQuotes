@@ -216,7 +216,7 @@ $vehicle = new Vehicle($crud);
 			</span>
 		</div>	    
 		
-		<table class="zebra-striped tablesorter" id="JourneyQuoteTable">
+		<table class="zebra-striped tablesorter" id="CallBackTable">
 		    <thead>
 		    <tr>			
 			<th>Date</th>
@@ -290,15 +290,7 @@ $vehicle = new Vehicle($crud);
 						<?php echo $vehicle->getVehicleName($r[vehicleId]); ?>
 					    </div>
 					</div>						
-				    </td>
-				    <!--td>
-					<span class="qDeprLoc">From: <?php echo $location->getLocationName($r[departureLoc]); ?></span>
-					<span class="qDestLoc">To: <?php echo $location->getLocationName($r[destinationLoc]) ?></span>
-				    </td>
-				    <td>
-					<span class="qDeprDate">Depart: <?php echo $datePicker->convertUnixToDate($r[departureDate]); ?> at <?php echo $datePicker->convertUnixToTime($r[departureDate]); ?></span>
-					<span class="qRtnDate">To: <?php echo $datePicker->convertUnixToDate($r[returnDate]); ?> at <?php echo $datePicker->convertUnixToTime($r[returnDate]); ?></span>
-				    </td-->
+				    </td>				    
 				    <td><?php echo $r[quoteMessage]; ?></td>
 				    <td><?php echo $status; ?></td>
 				</tr>
