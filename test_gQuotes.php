@@ -36,7 +36,7 @@ DatePicker::setNoOfDays(30);
 $datePicker = new DatePicker($fromDate, $toDate, $dateRangeSet);
 
 $adminQuotes = new AdminQuotes2(151, $datePicker);
-$resultSet = $adminQuotes->viewPaginateCallBacks(10, 10);
+$resultSet = $adminQuotes->viewPaginateQuoteRequest(10, 10);
 
 //print_r($resultSet);
 echo "<br /><br />";

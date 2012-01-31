@@ -1,41 +1,40 @@
 #container {
-    /* margin: 0px auto;
+     /*margin: 0px auto;
      width: 900px;*/
 }
 /*Search Button Style */
-    #search label{
-	text-align: left;
-	font-weight: bolder;
-	width: auto !important;
-	padding-right: 7px;	
-    }
+#search label{
+    text-align: left;
+    font-weight: bolder;
+    width: auto !important;
+    padding-right: 7px;	
+}
 /* Dashboard Paginator */
 ol#pagination{     
     margin-left: 6px;
 }
-ol#pagination li.prev {
-    left: -34px !important;
-}
-/* Custom Paginator Style */
-.cPaginator{
-    height: 36px;
-    margin-bottom: 18px 0;
-}
-.pContainer{
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 3px 3px 3px 3px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    float: right;
-    margin: 0;       
-}
+    ol#pagination li.prev {
+	left: -34px !important;
+    }
+    /* Custom Paginator Style */
+    .cPaginator{
+	height: 36px;
+	margin-bottom: 18px 0;
+    }
+    .pContainer{
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	float: right;
+	margin: 0;       
+    }
     .pContainer a {        
 	border-right: 1px solid rgba(0, 0, 0, 0.15);
 	line-height: 34px;
 	padding: 0 14px;
 	text-decoration: none;
 	float: left;	
-    }
-   
+    }   
     .pContainer a:hover{
 	background-color: #C7EEFE;  
 	text-decoration: none;
@@ -60,8 +59,7 @@ ol#pagination li.prev {
 
 #CallBackTable  td, #CallBackTable  th {
     max-width: 140px;
-    overflow: hidden;  
-    /*border: 1px dotted blue;*/
+    overflow: hidden;     
 }
     
 /*CallBack statPlaceholder style*/
@@ -102,6 +100,29 @@ ol#pagination li.prev {
     color: #BFBFBF;
     font-weight: normal !important;
 }
+#CallBackTable  .alert-message div{
+    margin-top: 0px;
+}
+.block-message-header{
+    color: #666666;
+    border-bottom: 1px solid #DDDDDD;
+    font-weight: bold;
+}
+.block-message-body{
+    color: #666666;
+}
+.block-message-footer{
+    border-top: 1px solid #DDDDDD;
+    color: #777777;
+    display: block;
+    font-size: 11px;
+    line-height: 12px !important;
+    margin-bottom: -8px !important;
+    margin-top: 18px !important;
+    padding-top: 5px;
+}
+
+
 .borderLeftZero{
     border-left: 0px !important;
 }
@@ -118,15 +139,18 @@ ol#pagination li.prev {
 .qUserName, .qUserEmail, .qUserTel, .qDeprLoc, .qDestLoc, .qDeprDate, .qRtnDate{
     display: block;
 }
-.qDate, .qUserName{
-    font-size: 12px;
-}
+    .qDate, .qUserName{
+	font-size: 12px;   
+    }
+    .qDate{
+	white-space: nowrap;
+    }
     .qUserEmail, .qUserTel{	
 	font-size: 11px;
 	color: #808080;
     }
     .qUserName{	
-	color: #666666;
+	 color: #666666;
 	font-weight: bold;
 	text-transform: uppercase;  	
     }    
@@ -158,27 +182,4 @@ ol#pagination li.prev {
     list-style: none;
     white-space: nowrap;
     color: #808080 !important;
-}
-#CallBackTable  .alert-message div{
-    margin-top: 0px;
-}
-
-
-.block-message-header{
-    color: #666666;
-    border-bottom: 1px solid #DDDDDD;
-    font-weight: bold;
-}
-.block-message-body{
-    color: #666666;
-}
-.block-message-footer{
-    border-top: 1px solid #DDDDDD;
-    color: #777777;
-    display: block;
-    font-size: 11px;
-    line-height: 12px !important;
-    margin-bottom: -8px !important;
-    margin-top: 18px !important;
-    padding-top: 5px;
 }

@@ -1,7 +1,7 @@
 <?php
 //Include the PS_Pagination class
 require_once 'class/gfAdminQuotes.class.php';
-require_once 'class/gfCallBackStats.class.php';
+require_once 'class/gfQuoteStats.class.php';
 require_once 'FirePHP/firePHP.php';
 require_once 'class/gfDatePicker.class.php';
 require_once 'class/gfLocation.class.php';
@@ -30,7 +30,7 @@ $vehicle = new Vehicle($crud);
 	    //need this until php sets the value, Therefore need here
 	    var dayRange = new Array();
 	    var totalRec = new Array();//To hold all request for Quotes
-	    var ansRec = new Array();//To hold answered callback records
+	    var ansRec = new Array();//To hold answered Quote Records
 	</script>
     </head>
     <body>
@@ -40,10 +40,9 @@ $vehicle = new Vehicle($crud);
 	
 	DatePicker::setNoOfDays(30);
 	$datePicker = new DatePicker($fromDate, $toDate, $dateRangeSet);
-
-	$cbStats = new CallBackStats($instanceId, $datePicker);
+	$qtStats = new QuoteStats($crud, $instanceId, $datePicker);
+	
 	try {
-
 	    //Get the From and To Date Range
 	    if (isset($_GET['dateRangeSet'])) {
 		
@@ -63,14 +62,14 @@ $vehicle = new Vehicle($crud);
 
 		if ($fromDate != "" && $toDate != "") {		    
 		    $infoMessage = $datePicker->displayDateRangeMsg($ukFromDate, $ukToDate);
-		    $cbStats->customStats($_GET['fromDate'], $_GET['toDate']);
+		    $qtStats->customStats($_GET['fromDate'], $_GET['toDate']);
 		} else {		    		    
 		    $infoMessage = $datePicker->displayDateRangeMsg($datePicker->getUkFromDate(), $datePicker->getUkToDate());
-		    $cbStats->monthStats();
+		    $qtStats->monthStats();
 		}
 	    } else {				
 		$infoMessage = $datePicker->displayDateRangeMsg($datePicker->getUkFromDate(), $datePicker->getUkToDate());
-		$cbStats->monthStats();
+		$qtStats->monthStats();
 	    }
 
 	    $adminQuotes = new AdminQuotes($crud, $datePicker, $instanceId);
@@ -80,10 +79,10 @@ $vehicle = new Vehicle($crud);
 		$adminQuotes->updateQuoteStatus($_GET['quoteId']);
 		if ($fromDate != "" && $toDate != "") {		    
 		    $infoMessage = $datePicker->displayDateRangeMsg($ukFromDate, $ukToDate);
-		    $cbStats->customStats($_GET['fromDate'], $_GET['toDate']);
+		    $qtStats->customStats($_GET['fromDate'], $_GET['toDate']);
 		} else {		    		    
 		    $infoMessage = $datePicker->displayDateRangeMsg($datePicker->getUkFromDate(), $datePicker->getUkToDate());
-		    $cbStats->monthStats();
+		    $qtStats->monthStats();
 		}
 	    }
 	    if ((isset($_GET['row_pp']))) {
@@ -103,21 +102,21 @@ $vehicle = new Vehicle($crud);
 		$inputNum = 10;
 	    }
 
-	    $TotalCB = $adminQuotes->countTotQuote();
-	    $AnsCB = $adminQuotes->countAnsQuote();
-	    $UnAnsCB = $adminQuotes->countUnAnsQuote();
+	    $totalQtReq = $adminQuotes->countTotQuote();
+	    $ansQtRq = $adminQuotes->countAnsQuote();
+	    $unAnsQtReq = $adminQuotes->countUnAnsQuote();
 
 	    if ((isset($_GET['quoteStatus']))) {
 		$quoteStatus = $_GET['quoteStatus'];
 		if ($quoteStatus == 0) {//Display UnAnswered Quotes	   
-		    $resultSet = $adminQuotes->viewPaginateCallBacks($inputNum, $numLink, '0');
+		    $resultSet = $adminQuotes->viewPaginateQuoteRequest($inputNum, $numLink, '0');
 		} else if ($quoteStatus == 1) {//Display Answered Quotes	   
-		    $resultSet = $adminQuotes->viewPaginateCallBacks($inputNum, $numLink, '1');
+		    $resultSet = $adminQuotes->viewPaginateQuoteRequest($inputNum, $numLink, '1');
 		} else if ($quoteStatus == 2) { // Total Quotes
-		    $resultSet = $adminQuotes->viewPaginateCallBacks($inputNum, $numLink, '2');
+		    $resultSet = $adminQuotes->viewPaginateQuoteRequest($inputNum, $numLink, '2');
 		}
 	    } else { //Display Total Quotes
-		$resultSet = $adminQuotes->viewPaginateCallBacks($inputNum, $numLink, '2');
+		$resultSet = $adminQuotes->viewPaginateQuoteRequest($inputNum, $numLink, '2');
 	    }
 	} catch (Exception $ex) {
 	    $errorMessage = $ex->getMessage();
@@ -161,8 +160,8 @@ $vehicle = new Vehicle($crud);
 			<h3>Total Requests</h3>    	
 			<p class="dashboard">
 			    <span class="data">
-				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=2&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"'; ?>" class="dashboardLink" id="totCB">
-				    <?php echo $TotalCB ?>
+				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=2&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"'; ?>" class="dashboardLink" id="totQtReq">
+				    <?php echo $totalQtReq ?>
 				</a>
 			    </span>
 			</p>
@@ -172,8 +171,8 @@ $vehicle = new Vehicle($crud);
 			<h3>Answered Requests</h3>    	
 			<p class="dashboard">
 			    <span class="data">
-				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=1&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"'; ?>" class="dashboardLink" id="ansCB">
-				<?php echo $AnsCB ?>
+				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=1&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"'; ?>" class="dashboardLink" id="ansQtReq">
+				<?php echo $ansQtRq ?>
 				</a>
 			    </span>
 			</p>
@@ -183,8 +182,8 @@ $vehicle = new Vehicle($crud);
 			<h3>Unanswered Requests</h3>    	
 			<p class="dashboard">
 			    <span class="data">
-				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=0&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"' ?>" class="dashboardLink" id="unAnsCB">
-				    <?php echo $UnAnsCB ?>
+				<a href="<?php echo $_SERVER['PHP_SELF'] . "?quoteStatus=0&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate()."&dateRangeSet=".$datePicker->getDateRangeSet().'"' ?>" class="dashboardLink" id="unAnsQtReq">
+				    <?php echo $unAnsQtReq ?>
 				</a>
 			    </span>
 			</p>		  
@@ -229,10 +228,9 @@ $vehicle = new Vehicle($crud);
 		    </thead>
 		    <tbody>
 			<?php				
-			if ($resultSet) {
-			    //print_r($resultSet);
+			if ($resultSet) {			    
 			    foreach ($resultSet as $r) {		
-				$date = date('M.d.Y', $r[quoteDate])."<br /><span class='small unHighlight'>".date('G:i:s A', $r[quoteDate])."</span>";
+				//$date = date('M.d.Y', $r[quoteDate])."<br /><span class='small unHighlight'>".date('G:i:s A', $r[quoteDate])."</span>";
 				$status = "";
 				if ($r[quoteStatus] == 0) {
 				    $status = "<a href='".$_SERVER['PHP_SELF']."?quoteId=".$r[quoteId]."&page=".$adminQuotes->getPageNo()."&row_pp=".$adminQuotes->getRecordsPerPage().
@@ -243,7 +241,11 @@ $vehicle = new Vehicle($crud);
 				}
 			?>	
 				<tr>
-				    <td><span class="qDate"><?php echo $date; ?></span></td>
+				    <td>
+					<span class="qDate"><?php echo $datePicker->convertUnixToDate($r[quoteDate]); ?></span>
+					<br /><span class="small unHighlight">
+					<span class="qtime"><?php echo $datePicker->convertUnixToTime($r[quoteDate]); ?></span>
+				    </td>
 				    <td>
 					<span class="qUserName"><?php echo $r[userName]; ?></span>
 					<span class="qUserEmail"><?php echo $r[userEmail]; ?></span>
@@ -251,43 +253,51 @@ $vehicle = new Vehicle($crud);
 				    </td>
 				    <td>
 					<div class="journeyDetails alert-message block-message info">
-					    <div class="journeyDate"><?php echo $datePicker->convertUnixToDate($r[departureDate]); ?><span class="unHighlight">&nbsp;at&nbsp;</span><?php echo $datePicker->convertUnixToTime($r[departureDate]); ?></div>
-						<div class="journeyLocations">
+					    <div class="journeyDate">
+						<?php echo $datePicker->convertUnixToDate($r[departureDate]); ?>
+						<span class="unHighlight">&nbsp;at&nbsp;</span>
+						<?php echo $datePicker->convertUnixToTime($r[departureDate]); ?>
+					    </div>
+					    <div class="journeyLocations">
 						<ul>
 						    <li>
 							<span class="floatLeft">From:</span>
-							<span class="fromLoc"><?php echo $location->getLocationName($r[departureLoc]); ?></span>
+							<span class="fromLoc"><?php echo $location->selectLocationName($r[departureLoc]); ?></span>
 							<span></span>
 						    </li>
 						    <li>
 							<span class="floatLeft">To:</span>
-							<span class="toLoc"><?php echo $location->getLocationName($r[destinationLoc]) ?></span>
+							<span class="toLoc"><?php echo $location->selectLocationName($r[destinationLoc]) ?></span>
 						    </li>
 						</ul>
 					    </div>
 					    <div class="block-message-footer">
-						<?php echo $vehicle->getVehicleName($r[vehicleId]); ?>
+						<?php echo $vehicle->selectVehicleName($r[vehicleId]); ?>
 					    </div>
 					</div>	
 					
 				    </td>
 				    <td>
 					<div class="journeyDetails alert-message block-message info">
-					    <div class="journeyDate"><?php echo $datePicker->convertUnixToDate($r[returnDate]); ?><span class="unHighlight">&nbsp;at&nbsp;</span><?php echo $datePicker->convertUnixToTime($r[returnDate]); ?></div>
-						<div class="journeyLocations">
+					    <div class="journeyDate">
+						<?php echo $datePicker->convertUnixToDate($r[returnDate]); ?>
+						<span class="unHighlight">&nbsp;at&nbsp;</span>
+						<?php echo $datePicker->convertUnixToTime($r[returnDate]); ?>
+					    </div>
+					    <div class="journeyLocations">
 						<ul>
 						    <li>
 							<span class="floatLeft">From:</span>
-							<span class="fromLoc"><?php echo $location->getLocationName($r[destinationLoc]) ?></span>
+							<span class="fromLoc"><?php echo $location->selectLocationName($r[destinationLoc]) ?></span>
 						    </li>
 						    <li>
 							<span class="floatLeft">To:</span>
-							<span class="toLoc"><?php echo $location->getLocationName($r[departureLoc]); ?></span>
+							<span class="toLoc"><?php echo $location->selectLocationName($r[departureLoc]); ?></span>
 						    </li>
 						</ul>
 					    </div>
 					    <div class="block-message-footer">
-						<?php echo $vehicle->getVehicleName($r[vehicleId]); ?>
+						<?php echo $vehicle->selectVehicleName($r[vehicleId]); ?>
 					    </div>
 					</div>						
 				    </td>				    
@@ -333,7 +343,7 @@ $vehicle = new Vehicle($crud);
 	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.js"></script>
 	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.symbol.js"></script>
 	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.stack.js"></script>
-	<script language="javascript" type="text/javascript" src="js/callbackStats.js"></script>
-	<script language="javascript" type="text/javascript" src="js/adminCallBack.js"></script>	
+	<script language="javascript" type="text/javascript" src="js/quoteReqStats.js"></script>
+	<script language="javascript" type="text/javascript" src="js/adminQuoteView.js"></script>	
     </body>
 </html>
