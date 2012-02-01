@@ -104,6 +104,14 @@ class DatePicker {
 	return date('d M Y', $unixTimeStamp);
     }
     
+    public function convertUnixToMDY($unixTimeStamp){	
+	return date('M.d.Y', $unixTimeStamp);
+    }
+    
+    public function convertUnixToDMY($unixTimeStamp){	
+	return date('d M Y', $unixTimeStamp);
+    }
+    
     public function convertUnixToTime($unixTimeStamp){	
 	return date('H:i', $unixTimeStamp);
     }

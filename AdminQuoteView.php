@@ -242,7 +242,10 @@ $vehicle = new Vehicle($crud);
 			?>	
 				<tr>
 				    <td>
-					<span class="qDate"><?php echo $datePicker->convertUnixToDate($r[quoteDate]); ?></span>
+					<!--use unixtimestamp to sort date properly, then hide it using css-->
+					<span class="unixDate"><?php echo $r[quoteDate]; ?></span>
+					
+					<span class="qDate"><?php echo $datePicker->convertUnixToDMY($r[quoteDate]); ?></span>
 					<br /><span class="small unHighlight">
 					<span class="qtime"><?php echo $datePicker->convertUnixToTime($r[quoteDate]); ?></span>
 				    </td>
@@ -254,7 +257,7 @@ $vehicle = new Vehicle($crud);
 				    <td>
 					<div class="journeyDetails alert-message block-message info">
 					    <div class="journeyDate">
-						<?php echo $datePicker->convertUnixToDate($r[departureDate]); ?>
+						<?php echo $datePicker->convertUnixToDMY($r[departureDate]); ?>
 						<span class="unHighlight">&nbsp;at&nbsp;</span>
 						<?php echo $datePicker->convertUnixToTime($r[departureDate]); ?>
 					    </div>
@@ -280,7 +283,7 @@ $vehicle = new Vehicle($crud);
 				    <td>
 					<div class="journeyDetails alert-message block-message info">
 					    <div class="journeyDate">
-						<?php echo $datePicker->convertUnixToDate($r[returnDate]); ?>
+						<?php echo $datePicker->convertUnixToDMY($r[returnDate]); ?>
 						<span class="unHighlight">&nbsp;at&nbsp;</span>
 						<?php echo $datePicker->convertUnixToTime($r[returnDate]); ?>
 					    </div>
