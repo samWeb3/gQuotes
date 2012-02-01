@@ -1,6 +1,6 @@
 #container {
-     /*margin: 0px auto;
-     width: 900px;*/
+     margin: 0px auto;
+     width: 920px;     
 }
 /*Search Button Style */
 #search label{
@@ -56,22 +56,19 @@ ol#pagination{
 #CallBackTable  td {
     color: #808080;
 }
-
 #CallBackTable  td, #CallBackTable  th {
     max-width: 140px;
     overflow: hidden;     
-}
-    
+}    
 /*CallBack statPlaceholder style*/
 #tooltipContainer{
     display: none;
 }
 #statPlaceholder {
-    margin: 10px auto;  
+    margin: 0px auto;  
     width: 760px;
-    height: 300px;
-    margin-right: 25px;    
-    margin-bottom: 20px;
+    height: 300px;   
+    margin-bottom: 20px;    
 }
 .yAxis .tickLabel {   
     padding-right: 5px;    
@@ -82,6 +79,12 @@ ol#pagination{
 #statPlaceholder table td, #statPlaceholder table th{
     padding: 5px 5px 4px;
     background-color: rgba(241, 241, 241, 0.2);   
+}
+/*Dashboard Pnl style*/
+#viewDashboardPnl{    
+    width: 804px;
+    margin: 0px auto;
+    margin-bottom: 15px;
 }
 /*Extend some bootstrap css*/
 .btn:active{

@@ -177,7 +177,6 @@ $vehicle = new Vehicle($crud);
 			    </span>
 			</p>
 		    </li>
-
 		    <li>
 			<h3>Unanswered Requests</h3>    	
 			<p class="dashboard">
@@ -187,8 +186,7 @@ $vehicle = new Vehicle($crud);
 				</a>
 			    </span>
 			</p>		  
-		    </li>
-		</ul>
+		    </li>		    
 	    </div> 
 	    
 	    <?php if (isset($errorMessage)) { ?>
