@@ -38,7 +38,7 @@ $vehicle = new Vehicle($crud);
 	$instanceId = 151; //instance of partner
 	$numLink = 10; //number of link
 	
-	DatePicker::setNoOfDays(30);
+	DatePicker::setNoOfDays(31);
 	$datePicker = new DatePicker($fromDate, $toDate, $dateRangeSet);
 	$qtStats = new QuoteStats($crud, $instanceId, $datePicker);
 	
@@ -60,14 +60,14 @@ $vehicle = new Vehicle($crud);
 
 		$dateRangeSet = $_GET['dateRangeSet'];
 
-		if ($fromDate != "" && $toDate != "") {		    
+		if ($fromDate != "" && $toDate != "") {		    		    
 		    $infoMessage = $datePicker->displayDateRangeMsg($ukFromDate, $ukToDate);
 		    $qtStats->customStats($_GET['fromDate'], $_GET['toDate']);
-		} else {		    		    
+		} else {
 		    $infoMessage = $datePicker->displayDateRangeMsg($datePicker->getUkFromDate(), $datePicker->getUkToDate());
 		    $qtStats->monthStats();
 		}
-	    } else {				
+	    } else {		
 		$infoMessage = $datePicker->displayDateRangeMsg($datePicker->getUkFromDate(), $datePicker->getUkToDate());
 		$qtStats->monthStats();
 	    }

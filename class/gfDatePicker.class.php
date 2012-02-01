@@ -72,10 +72,11 @@ class DatePicker {
     }
 
     public function getUnixFromDate() {
-	if ($this->getFromDate() != "") {
+	if ($this->getFromDate() != "") {	   
 	    return strtotime($this->getFromDate());
-	} else {
-	    return $this->getUnixToDate() - $this->getRange();
+	} else {	    
+	    //add 1sec at the end as 86399 used insdead of 86400 in getUnixToDate()
+	    return $this->getUnixToDate() - $this->getRange() + 1;
 	}
     }
 
@@ -87,8 +88,7 @@ class DatePicker {
 	     */
 	    return strtotime($this->getToDate()) + (86399);
 	} else {
-	    //return strtotime('today') + 86399;//86400;
-	    return strtotime('today');//86400;
+	    return strtotime('today') + 86399;//86400;	    
 	}
     }
     
