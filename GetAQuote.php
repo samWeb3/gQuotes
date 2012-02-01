@@ -78,7 +78,7 @@ $vehicle = new Vehicle($crud);
 	if (filter_has_var(INPUT_POST, getAQuote)) {  	  
 	    
 	    try {
-		require_once 'class/gfValidator.php';
+		require_once 'class/gfValidator.class.php';
 
 		$required = array('user_name', 'user_email', 'user_tel', 'quote_message', 'vehicleType', 'departureLoc', 'destinationLoc');
 
