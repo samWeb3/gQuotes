@@ -104,7 +104,7 @@ ol#pagination{
     font-weight: normal !important;
 }
 #CallBackTable  .alert-message div{
-    margin-top: 0px;
+    /*margin-top: 0px;*/
 }
 .block-message-header{
     color: #666666;
@@ -186,4 +186,27 @@ ol#pagination{
     list-style: none;
     white-space: nowrap;
     color: #808080 !important;
+}
+/*Style for depart and arrive arrow*/
+.arrow{
+    color: #000000;
+    font-size: 21px;
+    line-height: 0px;
+    font-weight: bold;    
+    opacity: 0.25;
+    text-shadow: 0 1px 0 #FFFFFF;    
+}
+.right{
+    float: right;
+}
+.left{
+    float: left;
+}
+.departArr{    
+    margin-left: -11px;
+    margin-top: -4px;
+}
+.returnArr{    
+    margin-right: -11px;
+    margin-top: -4px;
 }

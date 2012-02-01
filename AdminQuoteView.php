@@ -254,6 +254,7 @@ $vehicle = new Vehicle($crud);
 				    </td>
 				    <td>
 					<div class="journeyDetails alert-message block-message info">
+					    <span class="arrow left departArr">&rarr;</span>
 					    <div class="journeyDate">
 						<?php echo $datePicker->convertUnixToDMY($r[departureDate]); ?>
 						<span class="unHighlight">&nbsp;at&nbsp;</span>
@@ -280,6 +281,7 @@ $vehicle = new Vehicle($crud);
 				    </td>
 				    <td>
 					<div class="journeyDetails alert-message block-message info">
+					    <span class="arrow right returnArr">&larr;</span>
 					    <div class="journeyDate">
 						<?php echo $datePicker->convertUnixToDMY($r[returnDate]); ?>
 						<span class="unHighlight">&nbsp;at&nbsp;</span>
