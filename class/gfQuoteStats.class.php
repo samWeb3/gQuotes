@@ -8,23 +8,23 @@ class QuoteStats {
 
     private $_crud;
     private $_datePicker;
-    private $_instanceId;        
+    private $_instance;   
 
     /**
      *
-     * @param CRUD $crud		Reference of the CRUD class
-     * @param int $instanceId		Instance Id of a partner website
-     * @param DatePicker $datePicker	Reference of the DatePicker class
-     */
-    public function __construct(CRUD $crud, $instanceId, DatePicker $datePicker) {	
-	if (empty($instanceId)){
-	    throw new Exception("Partner ID Not provided");
+     * @param CRUD $crud		Reference of the CRUD object     
+     * @param DatePicker $datePicker	Reference of the DatePicker object
+     * @param gfInstances $instance	Reference to the Instance object
+     */    
+    public function __construct(CRUD $crud, DatePicker $datePicker, gfInstances $instance) {	
+	if (empty($instance)){
+	    throw new Exception("Partner Object Not provided");
 	}
 	if (empty($datePicker)) {
 	    throw new Exception("Date Object Not provided");
 	}
 	$this->_datePicker = $datePicker;
-	$this->_instanceId = $instanceId;
+	$this->_instance = $instance;	
 	$this->_crud = $crud;
     }
 
@@ -146,7 +146,7 @@ class QuoteStats {
 	} 			
 		
 	$stmt = $this->_crud->getDbConn()->prepare($sql);
-	$stmt->bindParam(':insId', $this->_instanceId, PDO::PARAM_STR);
+	$stmt->bindParam(':insId', $this->getInstId(), PDO::PARAM_STR);
 	$stmt->bindParam(':fromDate', $fromDate, PDO::PARAM_STR);
 	$stmt->bindParam(':fromDateEnd', $fromDateEnd, PDO::PARAM_STR);
 	$stmt->execute();
@@ -183,6 +183,10 @@ class QuoteStats {
     
     public function getToDate(){
 	return $this->_datePicker->getUnixToDate();
+    }
+        
+    private function getInstId(){
+	return $this->_instance->getInstanceId();
     }
 }
 

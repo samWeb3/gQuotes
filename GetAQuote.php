@@ -10,9 +10,6 @@ require_once 'class/gfQuotationForm.class.php';
 Debug::setDebug(true);
 
 $crud = new CRUD();
-$location = new Location($crud);
-$locResSet = $location->selectAllLocations();
-
 $instance = new gfInstances();
 
 $instanceVehicle = array( "151" => 
@@ -36,8 +33,10 @@ $instanceVehicle = array( "151" =>
 		    );
 
 $vehicle = new Vehicle($crud);
-//$vehResSet = $vehicle->selectAllVehicles();
-$vehResSet1 = $vehicle->getInstanceVehicles("152", $instanceVehicle);
+$vehResSet = $vehicle->getInstanceVehicles($instance, $instanceVehicle);
+
+$location = new Location($crud);
+$locResSet = $location->selectAllLocations();
 
 ?>
 
@@ -288,7 +287,7 @@ $vehResSet1 = $vehicle->getInstanceVehicles("152", $instanceVehicle);
 			    /*foreach($vehResSet as $vrs){
 				echo '<option value="'.$vrs[vehicleId].'">'.$vrs[vehicleName].'</option>';
 			    }*/
-			    foreach($vehResSet1 as $vId => $vName){
+			    foreach($vehResSet as $vId => $vName){
 				echo '<option value="'.$vId.'">'.$vName.'</option>';
 			    }
 			?>

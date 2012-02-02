@@ -23,7 +23,7 @@ class QuotationForm {
     /**
      *
      * @param Crud $crud
-     * @param gfInstances $instances
+     * @param gfInstances $instance
      * @param User $user
      * @param Vehicle $vehicle
      * @param type $departureLoc
@@ -32,7 +32,7 @@ class QuotationForm {
      * @param type $returnDateUnix
      * @param type $quoteMessage 
      */
-    public function __construct(Crud $crud, gfInstances $instances, User $user, Vehicle $vehicle, $departureLoc, $departureDateUnix, $destinationLoc, $returnDateUnix, $quoteMessage) {
+    public function __construct(Crud $crud, gfInstances $instance, User $user, Vehicle $vehicle, $departureLoc, $departureDateUnix, $destinationLoc, $returnDateUnix, $quoteMessage) {
 	
 	$this->_quoteMessage = $quoteMessage;
 	
@@ -42,7 +42,7 @@ class QuotationForm {
 	$this->_returnDateUnix = $returnDateUnix;
 
 	$this->_crud = $crud;
-	$this->_instance = $instances;
+	$this->_instance = $instance;
 	$this->_user = $user;
 	$this->_vehicle = $vehicle;
 	
@@ -225,12 +225,7 @@ class QuotationForm {
     private function updateRow($table, $fieldname, $value, $pk, $id) {
 	$this->_crud->dbUpdate($table, $fieldname, $value, $pk, $id);
     }
-  
-    
-    private function getInstId(){
-	return $this->_instance->getInstanceId();
-    }
-    
+         
     /**
      * Return email address of an instance
      * 
@@ -258,6 +253,13 @@ class QuotationForm {
 	/* $message = "Did you receive my message";
 	  $email = new gfEmailPostmark();
 	  $email->to($ow_email)->subject($subject)->messagePlain($message)->send(); */
+    }
+    
+    /**************************************************
+     * DELEGATION METHOD
+     **************************************************/
+    private function getInstId(){
+	return $this->_instance->getInstanceId();
     }
 
 }

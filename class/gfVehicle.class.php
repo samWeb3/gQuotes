@@ -3,7 +3,7 @@
 class Vehicle {
     private $_crud;
     private $_vehicleId;
-    private $_vehicleName;
+    private $_vehicleName;    
     
     public function __construct(CRUD $crud){
 	$this->_crud = $crud;	
@@ -21,10 +21,13 @@ class Vehicle {
     /**
      * Return all vehicles information belonging to instance
      * 
-     * @param type $instId	Instance Id of partner
-     * @param type $instVeh	Array holding vehicle of Instance
-     */
-    public function getInstanceVehicles($instId, $instVeh){
+     * @param gfInstances $instance	Reference to instance object
+     * @param type $instVeh		Array holding vehicles of Instances
+     * @return type			Array holding vehicle of particular instance
+     */    
+    public function getInstanceVehicles(gfInstances $instance, $instVeh){
+	$instId = $instance->getInstanceId();
+	echo $instId;
 	if (array_key_exists($instId, $instVeh)){	    
 	    return $instVeh[$instId];	    
 	} else {

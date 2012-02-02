@@ -8,7 +8,7 @@ class AdminQuotes {
 
     private $_crud;
     private $_datePicker;
-    private $_instanceId;
+    private $_instance;    
     private $_quoteStatus;    
     private $_pager;   
 
@@ -17,15 +17,15 @@ class AdminQuotes {
      * @param type $instanceId		Instance Id of Partner
      * @param DatePicker $datePicker	datePicker
      */
-    public function __construct(Crud $crud, DatePicker $datePicker, $instanceId) {
-	if (empty($instanceId)) {
+    public function __construct(Crud $crud, DatePicker $datePicker, gfInstances $instance) {
+	if (empty($instance)) {
 	    throw new Exception("Partner ID Not provided");
 	}
 	if (empty($datePicker)) {
 	    throw new Exception("Date Object Not provided");
 	}
 	$this->_datePicker = $datePicker;	
-	$this->_instanceId = $instanceId;
+	$this->_instance = $instance;	
 	$this->_crud = $crud;
     }
 
@@ -50,7 +50,7 @@ class AdminQuotes {
 		"&toDate=".$this->_datePicker->getToDate()."&dateRangeSet=".$this->_datePicker->getDateRangeSet().'"'
 		);
 	
-	//returns resultset or false
+	//returns ResultSet or false
 	$reqResultSet = $this->_pager->paginate();
 	
 	if (!$reqResultSet) {
@@ -69,13 +69,13 @@ class AdminQuotes {
      * @param type $quoteStatus	Total Quotes [" " || 2]; Answered [1], Unanswered [0]
      * @return string		SQL query
      */
-    private function quoteRequestQuery($quoteStatus="") {
+    private function quoteRequestQuery($quoteStatus="") {	
 	$sql = "SELECT gquoteuser.userId, userName, userEmail, userTel, 
 		    quoteId, instanceId, vehicleId, departureLoc, destinationLoc, 
 		    departureDate, returnDate, quoteMessage, quoteDate, quoteStatus
 		FROM gquoterequest, gquoteuser
 		WHERE gquoteuser.userId = gquoterequest.userId
-		AND gquoterequest.instanceId = $this->_instanceId";
+		AND gquoterequest.instanceId =".$this->getInstId();
 	if ($this->_datePicker->getUnixFromDate() != "" && $this->_datePicker->getUnixToDate() != "") {	    
 	     $sql .= " AND quoteDate > ".$this->_datePicker->getUnixFromDate().
 		     " AND quoteDate < ". $this->_datePicker->getUnixToDate();
@@ -115,7 +115,7 @@ class AdminQuotes {
      */
     public function countAnsQuote() {
 	Fb::info("Answered:");
-	$rs = $this->_crud->dbSelectFromTo('gquoterequest', $this->_instanceId, 'quoteStatus', '1', 'quoteDate', 
+	$rs = $this->_crud->dbSelectFromTo('gquoterequest', $this->getInstId(), 'quoteStatus', '1', 'quoteDate', 
 		$this->_datePicker->getUnixFromDate(), $this->_datePicker->getUnixToDate());
 	return count($rs);
     }
@@ -127,7 +127,7 @@ class AdminQuotes {
      */
     public function countUnAnsQuote() {
 	Fb::info("Unanswered:");
-	$rs = $this->_crud->dbSelectFromTo('gquoterequest', $this->_instanceId, 'quoteStatus', '0', 'quoteDate', 
+	$rs = $this->_crud->dbSelectFromTo('gquoterequest', $this->getInstId(), 'quoteStatus', '0', 'quoteDate', 
 		$this->_datePicker->getUnixFromDate(), $this->_datePicker->getUnixToDate());
 	return count($rs);
     }
@@ -140,7 +140,7 @@ class AdminQuotes {
     public function countTotQuote() {
 	Fb::info("Total Quotes");
 
-	$rs = $this->_crud->dbSelectFromTo('gquoterequest', $this->_instanceId, null, null, 'quoteDate', 
+	$rs = $this->_crud->dbSelectFromTo('gquoterequest', $this->getInstId(), null, null, 'quoteDate', 
 		$this->_datePicker->getUnixFromDate(), $this->_datePicker->getUnixToDate());
 	return count($rs);
     }
@@ -161,6 +161,12 @@ class AdminQuotes {
 	return $this->_pager->getRowsPerPage();
     }
     
+    /**************************************************
+     * DELEGATION METHOD
+     **************************************************/
+    private function getInstId(){
+	return $this->_instance->getInstanceId();
+    }
 
 }
 

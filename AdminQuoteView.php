@@ -6,6 +6,7 @@ require_once 'FirePHP/firePHP.php';
 require_once 'class/gfDatePicker.class.php';
 require_once 'class/gfLocation.class.php';
 require_once 'class/gfVehicle.class.php';
+require_once 'class/gfInstances.class.php';
 
 //Set the Debugging mode to True
 Debug::setDebug(true);
@@ -13,6 +14,7 @@ Debug::setDebug(true);
 $crud = new CRUD();
 $location = new Location($crud);
 $vehicle = new Vehicle($crud);
+$instance = new gfInstances();
 ?>  
 <!DOCTYPE html>
 <html>
@@ -34,13 +36,12 @@ $vehicle = new Vehicle($crud);
 	</script>
     </head>
     <body>
-	<?php
-	$instanceId = 151; //instance of partner
+	<?php	
 	$numLink = 10; //number of link
 	
 	DatePicker::setNoOfDays(31);
 	$datePicker = new DatePicker($fromDate, $toDate, $dateRangeSet);
-	$qtStats = new QuoteStats($crud, $instanceId, $datePicker);
+	$qtStats = new QuoteStats($crud, $datePicker, $instance);
 	
 	try {
 	    //Get the From and To Date Range
@@ -72,7 +73,7 @@ $vehicle = new Vehicle($crud);
 		$qtStats->monthStats();
 	    }
 
-	    $adminQuotes = new AdminQuotes($crud, $datePicker, $instanceId);
+	    $adminQuotes = new AdminQuotes($crud, $datePicker, $instance);
 
 	    //Check if Quotes link has been clicked
 	    if ((isset($_GET['quoteId']))) {
