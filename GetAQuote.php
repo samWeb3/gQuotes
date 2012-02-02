@@ -4,7 +4,7 @@ require_once 'class/gfCRUD.class.php';
 require_once 'class/gfLocation.class.php';
 require_once 'class/gfVehicle.class.php';
 require_once 'class/gfInstances.class.php';
-require_once 'class/gfQuotationForm.php';
+require_once 'class/gfQuotationForm.class.php';
 
 //Set the Debugging mode to True
 Debug::setDebug(true);
