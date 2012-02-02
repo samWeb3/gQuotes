@@ -164,7 +164,6 @@ ol#pagination{
     .qDeprLoc, .qDestLoc, .qDeprDate, .qRtnDate{
 	white-space: nowrap;
     }
-
 .journeyDate{
     font-size: 12px;
     color: #666666;
@@ -184,8 +183,12 @@ ol#pagination{
 }
 .journeyLocations li{
     list-style: none;
-    white-space: nowrap;
+    white-space: nowrap;   
     color: #808080 !important;
+}
+.noReturn {   
+    color: #808080 !important;
+    font-weight: bold;
 }
 /*Style for depart and arrive arrow*/
 .arrow{

@@ -254,7 +254,7 @@ $instance = new gfInstances();
 					<span class="qUserTel"><?php echo $r[userTel]; ?></span>
 				    </td>
 				    <td>
-					<div class="journeyDetails alert-message block-message info">
+					<div class="journeyDetails alert-message block-message info">					    
 					    <span class="arrow left outwardArr">&raquo;</span>
 					    <div class="journeyDate">
 						<?php echo $datePicker->convertUnixToDMY($r[departureDate]); ?>
@@ -281,6 +281,7 @@ $instance = new gfInstances();
 					
 				    </td>
 				    <td>
+					<?php if ($r[returnDate] != "" || $r[returnDate] != null) { ?>
 					<div class="journeyDetails alert-message block-message info">
 					    <span class="arrow right returnArr">&laquo;</span>
 					    <div class="journeyDate">
@@ -302,8 +303,14 @@ $instance = new gfInstances();
 					    </div>
 					    <div class="block-message-footer">
 						<?php echo $vehicle->selectVehicleName($r[vehicleId]); ?>
-					    </div>
-					</div>						
+					    </div>					    
+					</div>	
+					<?php } else {?>
+					    <div class="journeyDetails alert-message block-message error">						
+						<span class="arrow right returnArr">&laquo;</span>
+						<span class="noReturn">No Return ...</span>
+					    </div>					    
+					<?php } ?>
 				    </td>				    
 				    <td><?php echo $r[quoteMessage]; ?></td>
 				    <td><?php echo $status; ?></td>
