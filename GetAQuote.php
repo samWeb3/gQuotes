@@ -12,31 +12,62 @@ Debug::setDebug(true);
 $crud = new CRUD();
 $instance = new gfInstances();
 
-$instanceVehicle = array( "151" => 
-		    array(
-			'4' => '14 Seater Mini Bus',
-			'3' => '12 Seater Mini Bus',
-			'5' => '16 Seater Mini Bus',
-			'6' => '29 Seater Coach',
-			'7' => '33 Seater Coach',
-			'8' => '39 Seater Coach',
-			'11' => '52 Seater Coach',
-			'12' => '59 Seater Jambo Coach'			
-		    ),
-		  "152" => 
-			array(
-			    '4' => '14 Seater Mini Bus',
-			    '6' => '29 Seater Coach',
-			    '7' => '33 Seater Coach',			    
-			    '11' => '52 Seater Coach'
-			)
+$instanceLocation = array(  "151" => 
+				array(			
+				    '2'=>'London',
+				    '3'=>'Bristol',
+				    '4'=>'Manchester',
+				    '5'=>'Liverpool',
+				    '6'=>'Newcastle',
+				    '7'=>'Edingburgh',
+				    '8'=>'Bristol',
+				    '9'=>'Cardiff',
+				    '10'=>'Brighton',
+				    '11'=>'Bournemouth',
+				    '12'=>'Gatwick',
+				    '13'=>'Hathrow',
+				    '14'=>'Swansea',
+				    '15'=>'Blackpool'
+				),
+			    "152" => 
+				array(
+				    '1'=>'Fleet',			
+				    '2'=>'London',			    
+				    '4'=>'Manchester',			    
+				    '6'=>'Newcastle',
+				    '7'=>'Edingburgh',			    			    		    
+				    '11'=>'Bournemouth',
+				    '12'=>'Gatwick',			    
+				    '14'=>'Swansea',
+				    '15'=>'Blackpool'
+				)
+			);
+
+$instanceVehicle = array(   "151" => 
+				array(
+				    '4' => '14 Seater Mini Bus',
+				    '3' => '12 Seater Mini Bus',
+				    '5' => '16 Seater Mini Bus',
+				    '6' => '29 Seater Coach',
+				    '7' => '33 Seater Coach',
+				    '8' => '39 Seater Coach',
+				    '11' => '52 Seater Coach',
+				    '12' => '59 Seater Jambo Coach'			
+				),
+			    "152" => 
+				array(
+				    '4' => '14 Seater Mini Bus',
+				    '6' => '29 Seater Coach',
+				    '7' => '33 Seater Coach',			    
+				    '11' => '52 Seater Coach'
+				)
 		    );
 
 $vehicle = new Vehicle($crud);
 $vehResSet = $vehicle->getInstanceVehicles($instance, $instanceVehicle);
 
 $location = new Location($crud);
-$locResSet = $location->selectAllLocations();
+$locResSet = $location->getInstanceLocations($instance, $instanceLocation);
 
 ?>
 
@@ -233,19 +264,19 @@ $locResSet = $location->selectAllLocations();
 		
 		<li>
 		    <span class="leftWidth">Travel From:<span class="required">&#42;</span></span>
-		    <select name="departureLoc" id="departureLoc">
-			<?php foreach($locResSet as $lrs){ ?>
-				<option value="<?php echo $lrs[locationId] ?>"><?php echo $lrs[locationName] ?></option>				
-			<?php } ?>			
+		    <select name="departureLoc" id="departureLoc">			
+			<?php foreach($locResSet as $locId => $locName){ ?>
+			    <option value="<?php echo $locId ?>"><?php echo $locName ?></option>				
+			<?php } ?>
 		    </select>		    
 		</li>
 		
 		<li>
 		    <span class="leftWidth">Travel To:<span class="required">&#42;</span></span>
 		    <select name="destinationLoc" id="destinationLoc">
-			<?php foreach($locResSet as $lrs){ ?>
-				<option value="<?php echo $lrs[locationId] ?>"><?php echo $lrs[locationName] ?></option>				
-			<?php } ?>			
+			<?php foreach($locResSet as $locId => $locName){ ?>
+			    <option value="<?php echo $locId ?>"><?php echo $locName ?></option>				
+			<?php } ?>
 		    </select>		    
 		</li>
 		
@@ -287,10 +318,10 @@ $locResSet = $location->selectAllLocations();
 			    /*foreach($vehResSet as $vrs){
 				echo '<option value="'.$vrs[vehicleId].'">'.$vrs[vehicleName].'</option>';
 			    }*/
-			    foreach($vehResSet as $vId => $vName){
-				echo '<option value="'.$vId.'">'.$vName.'</option>';
-			    }
 			?>
+			<?php foreach($vehResSet as $vehId => $vehName){ ?>
+			    <option value="<?php echo $vehId ?>"><?php echo $vehName ?></option>				
+			<?php } ?>
 		    </select>
 		</li>
 		

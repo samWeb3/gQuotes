@@ -19,6 +19,22 @@ class Location {
     }
     
     /**
+     * Return all Locations served by the partner [instance]
+     * 
+     * @param gfInstances $instance	Reference to instance object
+     * @param type $instLoc		Array holding Locations of Instances
+     * @return type			Array holding Locations of particular instance
+     */    
+    public function getInstanceLocations(gfInstances $instance, $instLoc){
+	$instId = $instance->getInstanceId();	
+	if (array_key_exists($instId, $instLoc)){	    
+	    return $instLoc[$instId];	    
+	} else {
+	    echo "Sorry $instId key doesn't exit in $instLoc array! <br>";
+	}  
+    }
+    
+    /**
      *	Returns the Location Name 
      * 
      * @param type $locationId	Id of an location
@@ -38,14 +54,8 @@ class Location {
     
     /*************************************************************
      * FUNCTIONS TO BE ADDED 
-     *************************************************************/
-    
-    /**
-     * Get all the Location served by the partner
-     * 
-     * @param type $instanceId	Instance Id of the partner
-     */
-    public function getInstanceLocations($instanceId){}
+     *************************************************************/   
+   
     
     public function deleteLocation(){}
     
