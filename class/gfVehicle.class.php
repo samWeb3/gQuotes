@@ -26,8 +26,7 @@ class Vehicle {
      * @return type			Array holding vehicle of particular instance
      */    
     public function getInstanceVehicles(gfInstances $instance, $instVeh){
-	$instId = $instance->getInstanceId();
-	echo $instId;
+	$instId = $instance->getInstanceId();	
 	if (array_key_exists($instId, $instVeh)){	    
 	    return $instVeh[$instId];	    
 	} else {
