@@ -19,6 +19,20 @@ class Vehicle {
     }
     
     /**
+     * Return all vehicles information belonging to instance
+     * 
+     * @param type $instId	Instance Id of partner
+     * @param type $instVeh	Array holding vehicle of Instance
+     */
+    public function getInstanceVehicles($instId, $instVeh){
+	if (array_key_exists($instId, $instVeh)){	    
+	    return $instVeh[$instId];	    
+	} else {
+	    echo "Sorry $instId key doesn't exit in $instVeh array! <br>";
+	}  
+    }
+    
+    /**
      * Returns Vehicle Name of the given vehicle Id
      * 
      * @param type $vehicleId	Id of an Vehicle    
@@ -29,16 +43,9 @@ class Vehicle {
 	return $vehName[0][vehicleName];
     }
     
-    /*************************************************************
+     /*************************************************************
      * FUNCTIONS TO BE ADDED 
      *************************************************************/
-    
-    /**
-     * Get all types of vehicles provided by the partner
-     * 
-     * @param type $instanceId	Instance Id of the partner
-     */
-    public function getInstanceVehicles($instanceId){}
     
     public function addVehicle($vehicleName){}
     

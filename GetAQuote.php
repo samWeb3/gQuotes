@@ -13,11 +13,32 @@ $crud = new CRUD();
 $location = new Location($crud);
 $locResSet = $location->selectAllLocations();
 
-$vehicle = new Vehicle($crud);
-$vehResSet = $vehicle->selectAllVehicles();
-
 $instance = new gfInstances();
+
+$instanceVehicle = array( "151" => 
+		    array(
+			'4' => '14 Seater Mini Bus',
+			'3' => '12 Seater Mini Bus',
+			'5' => '16 Seater Mini Bus',
+			'6' => '29 Seater Coach',
+			'7' => '33 Seater Coach',
+			'8' => '39 Seater Coach',
+			'11' => '52 Seater Coach',
+			'12' => '59 Seater Jambo Coach'			
+		    ),
+		  "152" => 
+			array(
+			    '4' => '14 Seater Mini Bus',
+			    '6' => '29 Seater Coach',
+			    '7' => '33 Seater Coach',			    
+			    '11' => '52 Seater Coach'
+			)
+		    );
+
 $vehicle = new Vehicle($crud);
+//$vehResSet = $vehicle->selectAllVehicles();
+$vehResSet1 = $vehicle->getInstanceVehicles("152", $instanceVehicle);
+
 ?>
 
 <!DOCTYPE html>
@@ -264,8 +285,11 @@ $vehicle = new Vehicle($crud);
 		    <span class="leftWidth">Vehicle type:<span class="required">&#42;</span></span>
 		    <select name ="vehicleType" id="vehicleType">
 			<?php
-			    foreach($vehResSet as $vrs){
+			    /*foreach($vehResSet as $vrs){
 				echo '<option value="'.$vrs[vehicleId].'">'.$vrs[vehicleName].'</option>';
+			    }*/
+			    foreach($vehResSet1 as $vId => $vName){
+				echo '<option value="'.$vId.'">'.$vName.'</option>';
 			    }
 			?>
 		    </select>
