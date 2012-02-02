@@ -25,11 +25,7 @@ $instance = new gfInstances();
 	<link href="css/dr/demos.css" rel="stylesheet" />
 	<link href="css/quotes.css" rel="stylesheet" />
 	<link href="css/hacks.css" rel="stylesheet" />
-	<link href="css/bootstrap.min.css" rel="stylesheet" />	
-	<!--link href="assets/css/bootstrap.css" rel="stylesheet">
-	<link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="assets/css/docs.css" rel="stylesheet"-->
-	
+	<link href="css/bootstrap.css" rel="stylesheet" />	
 	<link href="css/easypaginate.css" rel="stylesheet" />
 	    
 	<script>
@@ -344,10 +340,7 @@ $instance = new gfInstances();
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script><!--For Date Range Picker-->
 	<script src="js/jquery.tablesorter.min.js"></script>	
 	<script type="text/javascript" src="js/jquery.cookies.2.2.0.js"></script>
-	<script type="text/javascript" src="js/easypaginate.js"></script>	
-	
-	<script type="text/javascript" src="assets/js/bootstrap.js"></script>	
-	
+	<script type="text/javascript" src="js/easypaginate.js"></script>
 	<script type="text/javascript" src="js/bootstrap-alerts.js"></script>		
 	<script type="text/javascript" src="js/recordFilter.js"></script>	
 	
