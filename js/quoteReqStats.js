@@ -1,8 +1,8 @@
 /*
  * Check Values
  * console.log("DayRange: " + dayRange);
- * console.log("CallBackRec: " + totalRec);
- * console.log("Ans CB Rec: " + ansRec);
+ * console.log("totalRecRec: " + totalRec);
+ * console.log("ansRec: " + ansRec);
  *
  */
 
@@ -35,8 +35,8 @@ if (dayRange != 0 /*&& totalRec != 0 && ansRec != 0*/){ //to avoid js error at b
 	return data;
     }	   		
 	   
-    //Following Script is for generating callback statistics
-    var callbackData = multiDimenArray(dayRange, totalRec);		
+    //Following Script is for generating Rotal Rec statistics
+    var unAnsweredData = multiDimenArray(dayRange, totalRec);		
 	    
     //To be Used when data for answered call retrieved
     var answeredData = multiDimenArray(dayRange, ansRec);	    
@@ -68,7 +68,7 @@ if (dayRange != 0 /*&& totalRec != 0 && ansRec != 0*/){ //to avoid js error at b
     { 
 	color: "#CB413B", 
 	label: "Quote", 		    
-	data: callbackData, 
+	data: unAnsweredData, 
 	shadowSize: 4
 				
     },
