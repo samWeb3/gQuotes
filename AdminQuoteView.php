@@ -225,20 +225,9 @@ $instance = new gfInstances();
 			<th>Status</th>
 		    </tr>
 		    </thead>
-		    <tbody>
-			<?php				
-			if ($resultSet) {			    
-			    foreach ($resultSet as $r) {		
-				//$date = date('M.d.Y', $r[quoteDate])."<br /><span class='small unHighlight'>".date('G:i:s A', $r[quoteDate])."</span>";
-				$status = "";
-				if ($r[quoteStatus] == 0) {
-				    $status = "<a href='".$_SERVER['PHP_SELF']."?quoteId=".$r[quoteId]."&page=".$adminQuotes->getPageNo()."&row_pp=".$adminQuotes->getRecordsPerPage().
-					      "&quoteStatus=".$adminQuotes->getQuoteStatus()."&param1=valu1&param2=value2&fromDate=".$datePicker->getFromDate()."&toDate=".$datePicker->getToDate().
-					      "&dateRangeSet=".$datePicker->getDateRangeSet()."' class='btn danger'>Pending...</a>";
-				} else {
-				    $status = "<a href='#' class='btn success disabled'>Answered</button>";
-				}
-			?>	
+		    <tbody>				
+			<?php if ($resultSet) { ?>
+			    <?php foreach ($resultSet as $r) { ?>
 				<tr>
 				    <td>
 					<!--use unixtimestamp to sort date properly, then hide it using css-->
@@ -313,7 +302,13 @@ $instance = new gfInstances();
 					<?php } ?>
 				    </td>				    
 				    <td><?php echo $r[quoteMessage]; ?></td>
-				    <td><?php echo $status; ?></td>
+				    <td>
+					<?php if ($r[quoteStatus] == 0) { ?>
+					    <a href="<?php echo $_SERVER['PHP_SELF'] ?>?quoteId=<?php echo $r[quoteId]; ?>&page=<?php echo $adminQuotes->getPageNo();?>&row_pp=<?php echo $adminQuotes->getRecordsPerPage(); ?>&quoteStatus=<?php echo $adminQuotes->getQuoteStatus(); ?>&param1=value1&param2=value2&fromDate=<?php echo $datePicker->getFromDate(); ?>&toDate=<?php echo $datePicker->getToDate(); ?>&dateRangeSet=<?php echo $datePicker->getDateRangeSet() ?>" class="btn danger">Pending...</a>
+					<?php } else { ?>
+					   <a href="#" class="btn success disabled">Answered</a>
+					<?php } ?> 
+				    </td>
 				</tr>
 			
 			<?php } } else { ?>
