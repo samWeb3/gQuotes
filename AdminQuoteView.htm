@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="css/dr/jquery.ui.all.css" rel="stylesheet" />
+	<link href="css/dr/demos.css" rel="stylesheet" />
+	<link href="css/quotes.css" rel="stylesheet" />
+	<link href="css/hacks.css" rel="stylesheet" />
+	<link href="css/bootstrap.css" rel="stylesheet" />	
+	<link href="css/easypaginate.css" rel="stylesheet" />
+	    
+	<script>
+	    //need this until php sets the value, Therefore need here
+	    var dayRange = new Array();
+	    var totalRec = new Array();//To hold all request for Quotes
+	    var ansRec = new Array();//To hold answered Quote Records
+	</script>
+    </head>
+    <body>		
+	<div id="container">
+	    <div id="datePickerHolder" class="group">
+		<div id="switchDisplay">
+		    <button id="viewStatBtn" class="btn default pull-left">{_View Statistics}</button>		    
+		    <button id="viewDashboardBtn" class="btn default pull-left">{_View Dashboard}</button>
+		</div>
+
+		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="get" class="pull-right">
+		    <!--Used by JavaScript-->
+		    <input class="medium" type="text" id="from" name="from" placeholder="{_Date From}" />
+		    <input class="medium" type="text" id="to" name="to" placeholder="{_Date To}" />
+
+		    <!--Used by PHP-->
+		    <input type="hidden" id="fromDate" name="fromDate"/>
+		    <input type="hidden" id="toDate" name="toDate"/>
+
+		    <input type="submit" id="date" name="dateRangeSet" value="{_Display}" class="btn default"/>
+		</form>
+	    </div>
+
+	    <!--?php if (isset($infoMessage)) { ?-->
+		<div class='alert-message info fade in clear' id="dateRangeMsg" data-alert='alert'><a class='close' href='#'>&times;</a>
+		    {$infoMessage}
+		</div>
+	    <!--?php } ?-->
+	    
+	    <div id="viewStatPnl">
+		<div id="statPlaceholder"></div>
+	    </div>	    
+
+	    <p id="tooltipContainer"><input id="enableTooltip" type="checkbox" checked>{_Enable Tooltip}</p>
+
+	    <div id="viewDashboardPnl">
+		<ul id="items">
+		    <li>
+			<h3>{_Total Requests}</h3>    	
+			<p class="dashboard">
+			    <span class="data">
+				<a href="?quoteStatus=2&fromDate={$fromDate}&toDate={$toDate}&dateRangeSet={$dateRangeSet}" class="dashboardLink" id="totQtReq">
+				    {$totalQtReq}
+				</a>
+			    </span>
+			</p>
+		    </li>
+
+		    <li>
+			<h3>{_Answered Requests}</h3>    	
+			<p class="dashboard">
+			    <span class="data">
+				<a href="?quoteStatus=1&fromDate={$fromDate}&toDate={$toDate}&dateRangeSet={$dateRangeSet}" class="dashboardLink" id="ansQtReq">
+				{$ansQtRq}
+				</a>
+			    </span>
+			</p>
+		    </li>
+		    <li>
+			<h3>{_Unanswered Requests}</h3>    	
+			<p class="dashboard">
+			    <span class="data">
+				<a href="?quoteStatus=0&fromDate={$fromDate}&toDate={$toDate}&dateRangeSet={$dateRangeSet}" class="dashboardLink" id="unAnsQtReq">
+				   {$unAnsQtReq}
+				</a>
+			    </span>
+			</p>		  
+		    </li>		    
+	    </div> 
+	    
+	    <!--?php if (isset($errorMessage)) { ?->
+		<div class='alert-message warning fade in' data-alert='alert'><a class='close' href='#'>&times;</a>
+		    {$errorMessage"}
+		</div>
+	    <!--?php } ?-->
+	    
+	    <div id="middle">
+		<div id="search" class="group">
+		    <div class="pull-left">
+			<label for="filter">{_Filter Record:}</label> 
+			<input type="text" name="filter" value="" id="filter">			
+		    </div>
+		    <span id="dateFilter" class="pull-right">
+			    <form action="" method="get" class="pull-right">
+				<input type="hidden" name="quoteStatus" id="quoteStatus" value="{$cbStatus}">				
+				<input type="hidden" name="fromDate" value="{$fromDate}">
+				<input type="hidden" name="toDate" value="{$toDate}">
+				<input type="hidden" name="dateRangeSet" value="{$dateRangeSet}">	
+				<label id="disRecHelpText" class="help-inline">Enter valid number and press &#60;ENTER&#62; !&nbsp;</label>
+				<input id="disRecord" class="input-small span2" type="text" size="15" placeholder="{_Display Record}" name="row_pp">				
+			    </form>
+			</span>
+		</div>	    
+		
+		<table class="zebra-striped tablesorter" id="CallBackTable">
+		    <thead>
+		    <tr>			
+			<th>{_Date}</th>
+			<th>{_Personal Info}</th>
+			<th>{_Outward}</th>
+			<th>{_Return}</th>
+			<th>{_Additional Request}</th>
+			<th>{_Status}</th>
+		    </tr>
+		    </thead>
+		    <tbody>				
+			<!--?php if ($resultSet) { ?-->
+			    <!--?php foreach ($resultSet as $r) { ?-->
+				<tr>
+				    <td>
+					<!--use unixtimestamp to sort date properly, then hide it using css-->
+					<span class="unixDate">{$quoteDate}</span>
+					
+					<span class="qDate">{$convertUnixToDMYQuote}</span>
+					<br /><span class="small unHighlight">
+					<span class="qtime">{$convertUnixToTimeQuote}</span>
+				    </td>
+				    <td>
+					<span class="qUserName">{$userName}</span>
+					<span class="qUserEmail">{$userEmail}</span>
+					<span class="qUserTel">{$userTel}</span>
+				    </td>
+				    <td>
+					<div class="journeyDetails alert-message block-message info">					    
+					    <span class="arrow left outwardArr">&raquo;</span>
+					    <div class="journeyDate">
+						{$convertUnixToDMYDep}
+						<span class="unHighlight">&nbsp;at&nbsp;</span>
+						{$convertUnixToTimeDep}
+					    </div>
+					    <div class="journeyLocations">
+						<ul>
+						    <li>
+							<span class="floatLeft">{_From:}</span>
+							<span class="fromLoc">{$departureLoc}</span>
+							<span></span>
+						    </li>
+						    <li>
+							<span class="floatLeft">{_To:}</span>
+							<span class="toLoc">{$destinationLoc}</span>
+						    </li>
+						</ul>
+					    </div>
+					    <div class="block-message-footer">
+						{$selectVehicleName}
+					    </div>
+					</div>	
+					
+				    </td>
+				    <td>
+					<!--?php if ($r[returnDate] != "" || $r[returnDate] != null) { ?-->
+					<div class="journeyDetails alert-message block-message info">
+					    <span class="arrow right returnArr">&laquo;</span>
+					    <div class="journeyDate">
+						{$convertUnixToDMYRet}
+						<span class="unHighlight">&nbsp;at&nbsp;</span>
+						{$convertUnixToTimeRet}
+					    </div>
+					    <div class="journeyLocations">
+						<ul>
+						    <li>
+							<span class="floatLeft">{_From:}</span>
+							<span class="fromLoc">{$destinationLoc}</span>
+						    </li>
+						    <li>
+							<span class="floatLeft">{_To:}</span>
+							<span class="toLoc">{$departureLoc}</span>
+						    </li>
+						</ul>
+					    </div>
+					    <div class="block-message-footer">
+						{$selectVehicleName}
+					    </div>					    
+					</div>	
+					<!--?php } else {?-->
+					    <div class="journeyDetails alert-message block-message error">						
+						<span class="arrow right returnArr">&laquo;</span>
+						<span class="noReturn">{_No Return ...}</span>
+					    </div>					    
+					<!--?php } ?-->
+				    </td>				    
+				    <td>{$quoteMessage}</td>
+				    <td>
+					<!--?php if ($r[quoteStatus] == 0) { ?-->
+					    <a href="?quoteId={$quoteId}&page={$pageNo}&row_pp={$recordsPerPage}&quoteStatus={$quoteStatus}&param1=value1&param2=value2&fromDate={$fromDate}&toDate={$toDate}&dateRangeSet={$dateRangeSet}" class="btn danger">
+						{_Pending...}
+					    </a>
+					<!--?php } else { ?-->
+					   <a href="#" class="btn success disabled">{_Answered}</a>
+					<!--?php } ?--> 
+				    </td>
+				</tr>
+			
+			<?php } } else { ?>
+				<tr>
+				    <td colspan="6">
+					<div class='alert-message block-message error' data-alert='alert'>
+					    <div class="block-message-header">{_Oops! Records not available!}</div>
+					    <div class="block-message-body">{_Please enter valid date range and try again...}</div>					    
+					</div>
+				    </td>
+				</tr>			    
+			<?php } ?>
+		    </tbody>
+		</table>
+		
+		<div class="cPaginator">
+		   {$paginatorNav}
+		</div>
+	    </div>
+	    
+	</div>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script><!--For Date Range Picker-->
+	<script src="js/jquery.tablesorter.min.js"></script>	
+	<script type="text/javascript" src="js/jquery.cookies.2.2.0.js"></script>
+	<script type="text/javascript" src="js/easypaginate.js"></script>
+	<script type="text/javascript" src="js/bootstrap-alerts.js"></script>		
+	<script type="text/javascript" src="js/recordFilter.js"></script>	
+	
+	<!--for Date Range Picker-->
+	<script src="js/dr/jquery.ui.widget.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dr/jquery.ui.datepicker.js" type="text/javascript" charset="utf-8"></script>
+
+	<!--For Generating stats-->
+	<!--for the support on IE7 and IE8-->
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/stat/excanvas.min.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.js"></script>
+	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.symbol.js"></script>
+	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.stack.js"></script>
+	<script language="javascript" type="text/javascript" src="js/quoteReqStats.js"></script>
+	<script language="javascript" type="text/javascript" src="js/adminQuoteView.js"></script>	
+    </body>
+</html>
