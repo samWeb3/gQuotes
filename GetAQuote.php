@@ -229,13 +229,10 @@ $locResSet = $location->getInstanceLocations($instance, $instanceLocation);
 			    <span class="warning"> <?php echo $errors['user_name'] ?></span><br /> 				
 		    <?php } ?>
 		    <span class="leftWidth">Name:<span class="required">&#42;</span></span>	
-		    <input type="text" maxlength="32" size="20" id="user_name" name="user_name"
-		       <?php			    
-			    if (isset($missing)) { 
-				//ENT_COMPAT: converts double quote to $quote; but lives single quote alone
-				echo 'value ="'.htmlentities($_POST['user_name'], ENT_COMPAT, 'UTF-8').'"';
-			    }				
-			?>
+		    <input type="text" maxlength="32" size="20" id="user_name" name="user_name"		       
+			<?php if (isset($missing)) { ?>				
+			    value ="<?php echo htmlentities($_POST['user_name'], ENT_COMPAT, 'UTF-8') ?>"
+			<?php } ?>	
 		    />
 		</li>		
 		<li>
@@ -256,8 +253,8 @@ $locResSet = $location->getInstanceLocations($instance, $instanceLocation);
 		    <?php } ?>
 		    <span class="leftWidth">Phone:<span class="required">&#42;</span></span>	
 		    <input type="text" maxlength="96" size="20" id="user_tel" name="user_tel" 
-			<?php if (isset($missing)) { ?>
-				value ="<?php echo htmlentities($_POST['user_tel'], ENT_COMPAT, 'UTF-8')?>"
+			<?php if (isset($missing)) { ?>				
+			    value ="<?php echo htmlentities($_POST['user_tel'], ENT_COMPAT, 'UTF-8') ?>"
 			<?php } ?>						 
 		    />		    
 		</li>
@@ -285,11 +282,7 @@ $locResSet = $location->getInstanceLocations($instance, $instanceLocation);
 			    <span class="warning"> <?php echo $errors['departureDate'] ?></span><br /> 				
 		    <?php } ?>
 		    <span class="leftWidth">Travel Date:<span class="required">&#42;</span></span>
-		    <input type="text" maxlength="96" size="10" id="departureDate" name="departureDate" 		
-			<?php if (isset($missing)) { ?>
-				value ="<?php echo htmlentities($_POST['departureDate'], ENT_COMPAT, 'UTF-8')?>"
-			<?php } ?>			   
-		    />
+		    <input type="text" maxlength="96" size="10" id="departureDate" name="departureDate" />
 		    <label for="sltHours">at</label>
 		    <select id="sltHours" name="sltHours" class="hours"></select>
 		    <label for="sltMinutes">:</label>
@@ -298,13 +291,7 @@ $locResSet = $location->getInstanceLocations($instance, $instanceLocation);
 		
 		<li>
 		    <span class="leftWidth">Return Date:</span>
-		    <input type="text" maxlength="96" size="10" id="returnDate" name="returnDate" 
-
-		    <?php if (isset($missing)) { ?>
-			value ="<?php echo htmlentities($_POST['returnDate'], ENT_COMPAT, 'UTF-8')?>"
-		    <?php } ?>
-			   
-		    />
+		    <input type="text" maxlength="96" size="10" id="returnDate" name="returnDate" />
 		    <label for="sltHoursRet">at</label>
 		    <select id="sltHoursRet" name="sltHoursRet" class="hours"></select>
 		    <label for="sltMinutesRet">:</label>
@@ -313,12 +300,7 @@ $locResSet = $location->getInstanceLocations($instance, $instanceLocation);
 		
 		<li>
 		    <span class="leftWidth">Vehicle type:<span class="required">&#42;</span></span>
-		    <select name ="vehicleType" id="vehicleType">
-			<?php
-			    /*foreach($vehResSet as $vrs){
-				echo '<option value="'.$vrs[vehicleId].'">'.$vrs[vehicleName].'</option>';
-			    }*/
-			?>
+		    <select name ="vehicleType" id="vehicleType">			
 			<?php foreach($vehResSet as $vehId => $vehName){ ?>
 			    <option value="<?php echo $vehId ?>"><?php echo $vehName ?></option>				
 			<?php } ?>
