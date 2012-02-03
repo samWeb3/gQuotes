@@ -46,7 +46,7 @@ class AdminQuotes {
 	    $sql = $this->quoteRequestQuery($quoteStatus);
 	}	
 	$this->_pager = new PS_Pagination($this->_crud, $sql, $rowNum, $numLink, 
-		"&cbStatus=$quoteStatus&param1=valu1&param2=value2&fromDate=".$this->_datePicker->getFromDate().
+		"&quoteStatus=$quoteStatus&param1=valu1&param2=value2&fromDate=".$this->_datePicker->getFromDate().
 		"&toDate=".$this->_datePicker->getToDate()."&dateRangeSet=".$this->_datePicker->getDateRangeSet().'"'
 		);
 	
