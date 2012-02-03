@@ -351,6 +351,8 @@ $instance = new gfInstances();
 	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.symbol.js"></script>
 	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.stack.js"></script>
 	<script language="javascript" type="text/javascript" src="js/graphicalStats.js"></script>
-	<script language="javascript" type="text/javascript" src="js/adminQuoteView.js"></script>	
+	<script language="javascript" type="text/javascript" src="js/adminView.js"></script>
+	<!--Diff js : -->
+	<script language="javascript" type="text/javascript" src="js/quote.js"></script>
     </body>
 </html>
