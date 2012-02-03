@@ -1,0 +1,93 @@
+#container {
+     margin: 0px auto;
+     width: 920px;     
+}
+#CallBackTable  td, #CallBackTable  th {
+    max-width: 140px;
+}
+
+.block-message-footer{
+    border-top: 1px solid #DDDDDD;
+    color: #777777;
+    display: block;
+    font-size: 11px;
+    line-height: 12px !important;
+    margin-bottom: -8px !important;
+    margin-top: 18px !important;
+    padding-top: 5px;
+}
+.borderLeftZero{
+    border-left: 0px !important;
+}
+
+/*Admin Quote View table style*/
+.qUserName, .qUserEmail, .qUserTel, .qDeprLoc, .qDestLoc, .qDeprDate, .qRtnDate{
+    display: block;
+}
+    .qDate, .qUserName{
+	font-size: 12px;   
+    }
+    .qUserEmail, .qUserTel{	
+	font-size: 11px;
+	color: #808080;
+    }
+    .qUserName{	
+	 color: #666666;
+	font-weight: bold;
+	text-transform: uppercase;  	
+    }    
+    .qUserTel{
+	font-weight: bold;
+    }
+    .qDeprLoc, .qDestLoc, .qDeprDate, .qRtnDate{
+	white-space: nowrap;
+    }
+.journeyDate{
+    font-size: 12px;
+    color: #666666;
+    white-space: nowrap;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #DDDDDD;
+}
+.journeyLocations .floatLeft{
+    float: left;  
+    width: 45px;
+    font-weight: bold;
+}
+.journeyLocations ul {
+    margin-left: 0px;
+    margin-bottom: 0px;
+}
+.journeyLocations li{
+    list-style: none;
+    white-space: nowrap;   
+    color: #808080 !important;
+}
+.noReturn {   
+    color: #808080 !important;
+    font-weight: bold;
+}
+/*Style for depart and arrive arrow*/
+.arrow{
+    color: #000000;
+    font-size: 21px;
+    line-height: 0px;
+    font-weight: bold;    
+    opacity: 0.25;
+    text-shadow: 0 1px 0 #FFFFFF;    
+}
+.right{
+    float: right;
+}
+.left{
+    float: left;
+}
+.outwardArr{    
+    margin-left: -11px;
+    margin-top: -4px;
+}
+.returnArr{    
+    margin-right: -11px;
+    margin-top: -4px;
+}
