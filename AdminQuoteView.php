@@ -33,6 +33,7 @@ $instance = new gfInstances();
 	    var dayRange = new Array();
 	    var totalRec = new Array();//To hold all request for Quotes
 	    var ansRec = new Array();//To hold answered Quote Records
+	    var recType = "Quotes"; //For Label
 	</script>
     </head>
     <body>
@@ -349,7 +350,7 @@ $instance = new gfInstances();
 	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.js"></script>
 	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.symbol.js"></script>
 	<script language="javascript" type="text/javascript" src="js/stat/jquery.flot.stack.js"></script>
-	<script language="javascript" type="text/javascript" src="js/quoteReqStats.js"></script>
+	<script language="javascript" type="text/javascript" src="js/graphicalStats.js"></script>
 	<script language="javascript" type="text/javascript" src="js/adminQuoteView.js"></script>	
     </body>
 </html>
