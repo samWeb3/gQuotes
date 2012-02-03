@@ -25,7 +25,7 @@
 		    <button id="viewDashboardBtn" class="btn default pull-left">{_View Dashboard}</button>
 		</div>
 
-		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="get" class="pull-right">
+		<form action="" method="get" class="pull-right">
 		    <!--Used by JavaScript-->
 		    <input class="medium" type="text" id="from" name="from" placeholder="{_Date From}" />
 		    <input class="medium" type="text" id="to" name="to" placeholder="{_Date To}" />
@@ -103,7 +103,7 @@
 				<input type="hidden" name="fromDate" value="{$fromDate}">
 				<input type="hidden" name="toDate" value="{$toDate}">
 				<input type="hidden" name="dateRangeSet" value="{$dateRangeSet}">	
-				<label id="disRecHelpText" class="help-inline">Enter valid number and press &#60;ENTER&#62; !&nbsp;</label>
+				<label id="disRecHelpText" class="help-inline">{_Enter valid number and press &#60;ENTER&#62; !&nbsp;}</label>
 				<input id="disRecord" class="input-small span2" type="text" size="15" placeholder="{_Display Record}" name="row_pp">				
 			    </form>
 			</span>
