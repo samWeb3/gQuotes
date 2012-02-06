@@ -1,3 +1,7 @@
+/***********************************************
+ * JS Code specific to adminQuoteView.php/htm
+ ***********************************************/
+
 /**************************************************
  * Highlight Dashboard Link Based on current Status 
  **************************************************/
@@ -14,4 +18,4 @@ switch (quoteStatus){
     case '2': 		
 	$('#totQtReq').addClass('activeLink');
 	break;
-}
+} 

@@ -84,5 +84,29 @@ $(function() {
 	'scope' : 'single', // [single/global] should the values be sticky only on this form (single) or across all forms on site (default is global)
 	'disableIfGetSet' : 'elq' // ['',$_GET var] set to the $_GET var.  If this $_GET var is present, it will automatically disable the plugin. (default is '')
     });
-});	  
+});
 
+/*****************************************************
+ * Use BindDeptDest object to ensure when one location
+ * is selected from dropdown menu the same is not 
+ * displayed in another dropdonw menu
+ * 
+ * In php file, need to reverse array sort either 
+ * destination or departure [ideally] select dropdown 
+ * menu to work properly
+ *****************************************************/
+
+var bindDeptDest = new BindDepDest();
+
+$(document).ready(function(){	  
+    bindDeptDest.onDepartureSelect(bindDeptDest);    
+    bindDeptDest.onDestinationSelect(bindDeptDest);
+});	    	   
+
+$("#departureLoc").change(function(){  
+    bindDeptDest.onDepartureSelect(bindDeptDest);
+});
+
+$("#destinationLoc").change(function(){ 
+    bindDeptDest.onDestinationSelect(bindDeptDest);
+});	
