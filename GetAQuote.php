@@ -261,7 +261,7 @@ $locResSet = $location->getInstanceLocations($instance, $instanceLocation);
 		<li>
 		    <span class="leftWidth">Travel To:<span class="required">&#42;</span></span>
 		    <select name="destinationLoc" id="destinationLoc">
-			<?php arsort($locResSet);?>
+			<?php //arsort($locResSet);?>
 			<?php foreach($locResSet as $locId => $locName){ ?>
 			    <option value="<?php echo $locId ?>"><?php echo $locName ?></option>				
 			<?php } ?>
@@ -322,7 +322,7 @@ $locResSet = $location->getInstanceLocations($instance, $instanceLocation);
 	<script src="js/dr/jquery.ui.datepicker.js" type="text/javascript" charset="utf-8"></script>
 	<!--Jquery form validation plugin-->
 	<script src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js" type="text/javascript" charset="utf-8"></script>	
-	<script src="js/bindDepDest.js" type="text/javascript" charset="utf-8"></script> 
+	<script src="js/bindDepDest_bak.js" type="text/javascript" charset="utf-8"></script> 
 	<script src="js/DropdownLoader.js" type="text/javascript" charset="utf-8"></script>	
 	<script src="js/jquery.StickyForms.js" type="text/javascript" charset="utf-8"></script>	
 	<script src="js/getAQuote.js" type="text/javascript" charset="utf-8"></script>  

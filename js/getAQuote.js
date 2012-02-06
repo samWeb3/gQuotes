@@ -96,7 +96,7 @@ $(function() {
  * menu to work properly
  *****************************************************/
 
-var bindDeptDest = new BindDepDest();
+var bindDeptDest = new BindDepDest($("#departureLoc option"), $("#destinationLoc option"));
 
 $(document).ready(function(){	  
     bindDeptDest.onDepartureSelect(bindDeptDest);    

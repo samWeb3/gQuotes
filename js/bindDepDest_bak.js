@@ -6,10 +6,7 @@
  * 
  */
 
-function BindDepDest(saveDeprDDOptions, saveDestDDOptions){
-    this.saveDeprDDOptions = saveDeprDDOptions;
-    this.saveDestDDOptions = saveDestDDOptions;
-            
+function BindDepDest(){
     this.aDestinationLoc;
     this.aDestinationLocText;
     this.aDepartureLoc;
@@ -29,13 +26,10 @@ BindDepDest.prototype.getSaveDeprDDOptions = function(){
  * @bindObject <object>	    Object of the same class needed inside $("#departureLoc option:selected") 
  *			    and $("#destinationLoc option") function
  */
-BindDepDest.prototype.onDepartureSelect = function(bindObject){
-    console.log("Destination Options", this.getSaveDestDDOptions());
+BindDepDest.prototype.onDepartureSelect = function(bindObject){   
     
     if (this.getADestinationLoc()){//if element exist      	
-	//add all the saved state back to select dropodown menu
-	$("#destinationLoc").append(this.getSaveDestDDOptions());
-	//$("#destinationLoc option").show();
+	$("#destinationLoc option").show();
     } 
 
     /*********************************************************************************
@@ -71,21 +65,18 @@ BindDepDest.prototype.onDepartureSelect = function(bindObject){
 	 * If selected departure Location is found in destination Location 
 	 * HIDE IT	
 	*/
-	if (bindObject.getADepartureLocText() == bindObject.getADestinationLocText()){	    	    	    
-	    bindObject.getADestinationLoc().remove();
-	    //bindObject.getADestinationLoc().hide();
+	if (bindObject.getADepartureLocText() == bindObject.getADestinationLocText()){	    	    
+	    //alert(bindObject.getADestinationLoc());
+	    bindObject.getADestinationLoc().hide();
 	}
 		    
 	//console.log("Destination Option: " + bindObject.getADestinationLoc());
     });   
 }
 
-BindDepDest.prototype.onDestinationSelect = function(bindObject){    
-   console.log("Departure Options", this.getSaveDeprDDOptions());
-   
+BindDepDest.prototype.onDestinationSelect = function(bindObject){
    if (this.getADepartureLoc()){
-	//$("#departureLoc option").show();
-	$("#departureLoc").append(this.getSaveDeprDDOptions());
+	$("#departureLoc option").show();
    } 
    
    $("#destinationLoc option:selected").each(function(){
@@ -106,15 +97,7 @@ BindDepDest.prototype.onDestinationSelect = function(bindObject){
 	 * HIDE IT	
 	*/
 	if (bindObject.getADestinationLocText() == bindObject.getADepartureLocText()){	   
-	    //bindObject.getADepartureLoc().hide();
-	    /** 
-	     * WebKit (Chrome, safari) & IE doesn't support hide on select option 
-	     * 
-	     * Therfore, 
-	     * 1. First Remove the element
-	     * 2. add the save state of option back to the select dropdown
-	     */
-	    bindObject.getADepartureLoc().remove();
+	    bindObject.getADepartureLoc().hide();
 	}
 	
 	//console.log("Departure Option: " + bindObject.getADepartureLoc());
