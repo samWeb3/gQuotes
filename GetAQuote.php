@@ -252,6 +252,7 @@ $locResSet = $location->getInstanceLocations($instance, $instanceLocation);
 		<li>
 		    <span class="leftWidth">Travel From:<span class="required">&#42;</span></span>
 		    <select name="departureLoc" id="departureLoc">			
+			<?php //asort($locResSet);?>
 			<?php foreach($locResSet as $locId => $locName){ ?>
 			    <option value="<?php echo $locId ?>"><?php echo $locName ?></option>				
 			<?php } ?>
@@ -261,7 +262,7 @@ $locResSet = $location->getInstanceLocations($instance, $instanceLocation);
 		<li>
 		    <span class="leftWidth">Travel To:<span class="required">&#42;</span></span>
 		    <select name="destinationLoc" id="destinationLoc">
-			<?php //arsort($locResSet);?>
+			<?php asort($locResSet);?>
 			<?php foreach($locResSet as $locId => $locName){ ?>
 			    <option value="<?php echo $locId ?>"><?php echo $locName ?></option>				
 			<?php } ?>
